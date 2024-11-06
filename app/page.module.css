@@ -1,0 +1,7 @@
+.mainBackground{
+background: url(/book.jpg) no-repeat center center/cover; /* Arka plan resmi */
+  height: 90svh;
+  position: relative;
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.5);
+}
