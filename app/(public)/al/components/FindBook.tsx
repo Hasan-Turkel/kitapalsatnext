@@ -1,8 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import Select, { SingleValue } from "react-select";
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+
+import { SingleValue } from "react-select";
 import { getCities, getDistrictsByCityCode } from "turkey-neighbourhoods";
+const Select = dynamic(() => import('react-select'), {
+  ssr: false, // SSR'de render etme
+});
 
 interface Option {
   value: string;
@@ -13,6 +19,23 @@ const FindBook = () => {
 
     const [city, setCity] = useState<SingleValue<Option | null>>(null);
   const [district, setDistrict] = useState<SingleValue<Option | null>>(null);
+
+  const handleChangeCity = (selected: unknown) => {
+    // Öncelikle selected değerinin doğru tipe sahip olduğunu kontrol etmeliyiz
+    if (selected === null || typeof selected === 'object' && 'value' in selected) {
+      // Burada `selected` doğru bir Option tipindedir, o yüzden `setSelectedOption`'a aktarabiliriz.
+      setCity(selected as SingleValue<Option | null>);
+      setDistrict(null)
+    }
+  };
+
+  const handleChangeDistrict = (selected: unknown) => {
+    // Öncelikle selected değerinin doğru tipe sahip olduğunu kontrol etmeliyiz
+    if (selected === null || typeof selected === 'object' && 'value' in selected) {
+      // Burada `selected` doğru bir Option tipindedir, o yüzden `setSelectedOption`'a aktarabiliriz.
+      setDistrict(selected as SingleValue<Option | null>);
+    }
+  };
   return (
     <section className="max-w-[840px] m-auto mt-10">
     <h2 className="text-3xl">Almak İstediğin Kitabı Kolayca Bul !</h2>
@@ -73,10 +96,7 @@ const FindBook = () => {
             }}
             className="selectbox"
             value={city}
-            onChange={(value) => {
-              setCity(value);
-              setDistrict(null);
-            }}
+            onChange={handleChangeCity}
             options={getCities().map((city) => ({
               value: city.code,
               label: city.name,
@@ -118,7 +138,7 @@ const FindBook = () => {
             }}
             className="selectbox"
             value={district}
-            onChange={(value) => setDistrict(value)}
+            onChange={handleChangeDistrict}
             options={getDistrictsByCityCode(city?.value || "82").map(
               (district) => ({
                 value: district,
