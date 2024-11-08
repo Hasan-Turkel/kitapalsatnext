@@ -1,24 +1,35 @@
+import LastAddedBook from "@/components/LastAddedBook";
 import styles from "./page.module.css";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main
-      className={"flex justify-center items-center " + styles.mainBackground}
-    >
-      <div>
-        <h2 className="text-5xl text-white text-center mb-5">
-          İkinci El Kitabın Adresi
-        </h2>
+    <main>
+      <section
+        className={"flex justify-center items-center " + styles.mainBackground}
+      >
+        <div>
+          <h2 className="text-5xl text-white text-center mb-5">
+            İkinci El Kitabın Adresi
+          </h2>
 
-        <div className="flex text-white justify-center text-3xl gap-3">
-          <p className="">
-            İster <span className="text-orange-500">Al</span>{" "}
-          </p>
-          <p>
-            İster <span className="text-blue-500">Sat</span>
-          </p>
+          <div className="flex text-white justify-center text-3xl gap-3">
+            <p className="">
+              İster{" "}
+              <Link href={"/al"} className="text-orange-500">
+                Al
+              </Link>{" "}
+            </p>
+            <p>
+              İster{" "}
+              <Link href={"/sat"} className="text-blue-500">
+                Sat
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
+      <LastAddedBook />
     </main>
   );
 }

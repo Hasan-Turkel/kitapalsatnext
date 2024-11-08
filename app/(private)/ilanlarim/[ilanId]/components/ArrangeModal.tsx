@@ -1,4 +1,4 @@
-import SetInfoBook from "@/app/(public)/sat/components/SetInfoBook";
+import SetInfoBook from "@/app/(private)/sat/components/SetInfoBook";
 import React, { FC } from "react";
 
 interface ArrangeModalProps {
