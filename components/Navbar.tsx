@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Disclosure,
   Menu,
@@ -6,11 +8,15 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import Link from "next/link";
+import { useAtomValue } from "jotai";
+import { tokenAtom } from "../utils/atoms";
+import useAuth from '../utils/useAuth'
 
 const navigation = [{ name: "İkinciElKitapAlSat", href: "/" }];
 
 const Navbar = () => {
-  const user = true;
+  const user = useAtomValue(tokenAtom);
+  const {logout} = useAuth()
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -74,6 +80,14 @@ const Navbar = () => {
                     >
                       Mesajlarım
                     </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <p
+                   
+                      className="cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none" onClick={()=>logout()}
+                    >
+                      Çıkış Yap
+                    </p>
                   </MenuItem>
                 </MenuItems>
               </Menu>
