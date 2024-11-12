@@ -13,7 +13,9 @@ interface LoginValues {
 interface RegisterValues {
   email: string;
   password: string;
-  fullName: string;
+  fullname: string;
+  city:{value:string, label:string} | null;
+  district:{value:string, label:string } | null
 }
 
 interface UpdatePersonalInfoValues {
@@ -51,53 +53,20 @@ const useAuth = () => {
       toast.error("Çıkış yapılamadı");
     }
   };
-  // Kişisel bilgileri güncelleme
-  // const updatePersonalInfo = async (
-  //   values: UpdatePersonalInfoValues,
-  //   id: string
-  // ) => {
-  //   try {
-  //     const { data } = await axiosWithToken.put(`/users/${id}`, values);
-  //     dispatch(updatePersonalInfoSuccess({ ...data, id: data?._id }));
-  //     toast.success("Kişisel bilgiler güncellendi.");
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Kişisel bilgiler güncellenemedi.");
-  //   }
-  // };
-
-  // Şifre sıfırlama talebi gönderme
-  // const forgotPassword = async (values: { email: string }) => {
-  //   try {
-  //     const { data } = await axiosSimple.post(`/auth/forgot-password`, values);
-  //     toast.success("Şifre yenileme maili gönderildi.");
-  //     navigate("/"); // İşlem tamamlandıktan sonra anasayfaya yönlendir
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Şifre yenileme maili gönderilemedi.");
-  //   }
-  // };
-
-  // Şifre yenileme
-  // const renewPassword = async (values: { password: string; token: string }) => {
-  //   try {
-  //     const { data } = await axiosWithToken.post(
-  //       `/auth/renew-password`,
-  //       values
-  //     );
-  //     toast.success("Şifreniz yenilendi.");
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Şifreniz yenilenemedi.");
-  //   }
-  // };
 
   // Kayıt işlemi
   const register = async (values: RegisterValues) => {
     try {
-      const { data } = await instance.post(`/auth/register`, values);
+      const data = await instance.post(`/auth/register`, values);
+      if ("bearer" in data) {
+        setToken(data?.bearer);
+      }
+
+      toast.success("Başarıyla kayıt olundu.");
+      router.push("/");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error("Mail adresi veya şifre yanlış.");
     }
   };
 

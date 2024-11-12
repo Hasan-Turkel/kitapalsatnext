@@ -7,8 +7,8 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import * as Yup from "yup";
 
 import useAuth from "@/utils/useAuth";
-import { useAtomValue } from "jotai";
-import { tokenAtom } from "../../../utils/atoms";
+import Link from "next/link";
+
 
 interface FormValues {
   email: string;
@@ -40,8 +40,6 @@ const Page = () => {
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
 
-  const token = useAtomValue(tokenAtom);
-
   const {login} = useAuth()
 
  
@@ -61,8 +59,6 @@ const Page = () => {
           }}
         >
           {({
-            values,
-            handleChange,
             handleSubmit,
             isSubmitting,
             touched,
@@ -126,13 +122,9 @@ const Page = () => {
 
              
               <div className="text-center mt-4">
-                <span className="text-sm text-blue-500 cursor-pointer">
-                  Şifremi Unuttum
-                </span>
-                <span className="mx-2">-</span>
-                <span className="text-sm text-blue-500 cursor-pointer">
+                <Link href={'/register'} className="text-sm text-blue-500 cursor-pointer">
                   Kayıt Ol
-                </span>
+                </Link>
               </div>
             </Form>
           )}
