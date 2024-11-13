@@ -5,7 +5,9 @@ import { useState } from "react";
 import DeleteModal from "./components/DeleteModal";
 import SuspendModal from "./components/SuspendModal";
 import ArrangeModal from "./components/ArrangeModal";
-
+import useBooks from "@/utils/useBooks";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 const page = () => {
   const [isModalOpen, setIsModalOpen] = useState({
     delete: false,
@@ -32,13 +34,23 @@ const page = () => {
   const closeArrangeModal = () => {
     setIsModalOpen({ ...isModalOpen, arrange: false });
   };
+
+  const { book, getBook } = useBooks();
+
+  const params = useParams(); // Access params using the useParams hook
+  const ilanId = params?.ilanId; // Access the specific param after unwrapping
+
+  useEffect(() => {
+    getBook(ilanId);
+  }, []);
+
   return (
     <main className="p-3">
       <section className="max-w-[840px] m-auto my-10">
-        <BookCard />
+        <BookCard book={book} ads={false} />
 
-        <p className="m-2">Durum: Aktif</p>
-        <p className="m-2">Açıklama: Yeni gibidir. Hiçbir sorunu yoktur. </p>
+        <p className="m-2">Durum: {book?.isActive ? "Aktif" : "Aktif Değil"}</p>
+        <p className="m-2">Açıklama: {book?.description} </p>
 
         <div className="m-2 flex gap-5 flewx-wrap">
           <button

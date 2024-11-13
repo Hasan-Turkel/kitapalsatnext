@@ -1,10 +1,11 @@
-import useAxios from "@/utils/useAxios"
+import useAxios from "@/utils/useAxios";
 import { useAtomValue } from "jotai";
 import { tokenAtom } from "./atoms";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
+import { Book } from "@/app/(private)/ilanlarim/components/AdsList";
 
 // Login ve Register form değerlerinin tipi
 interface FormValues {
@@ -13,21 +14,65 @@ interface FormValues {
   bookStore: string;
   publishmentYear: string;
   description: string;
-  price:string
+  price: string;
 }
 
 const useBooks = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   const router = useRouter();
   const token = useAtomValue(tokenAtom);
-  const [data, setfirst] = useState([]);
+  const [data, setData] = useState([]);
+  const [book, setBook] = useState<Book>({
+    author: "",
+    price: "",
+    bookStore: "",
+    createdAt: new Date().toISOString(),
+    description: "",
+    isActive: true,
+    isDeleted: false,
+    name: "",
+    photo: "",
+    publishmentYear: "",
+    updatedAt: new Date().toISOString(),
+    user_id: {
+      city: {
+        value: "", // Şehir veya ilçe ID'si ('')
+        label: "", // Şehir veya ilçe adı ('')
+        _id: "", // MongoDB benzersiz ID'si ('')
+      }, // Şehir bilgisi (Location tipinde)
+      createdAt: "", // Kullanıcının oluşturulma tarihi (ISO 8601 formatında '')
+      district: {
+        value: "", // Şehir veya ilçe ID'si ('')
+        label: "", // Şehir veya ilçe adı ('')
+        _id: "", // MongoDB benzersiz ID'si ('')
+      }, // İlçe bilgisi (Location tipinde)
+      email: "", // Kullanıcı e-posta adresi ('')
+      fullname: "", // Kullanıcı adı soyadı ('')
+      is_superadmin: false, // Süper admin mi? (boolean)
+      password: "", // Şifre (hashlenmiş veya normal '' olarak saklanabilir)
+      updatedAt: "", // Kullanıcı güncellenme tarihi (ISO 8601 formatında '')           // MongoDB versiyon numarası (number)
+      _id: "",
+    },
+    __v: 0,
+    _id: "654321",
+  });
 
   const getPersonalBooks = async () => {
     try {
-      console.log("girdi");
       const data = await axiosInstance.get(`books/personalBooks`);
       if ("data" in data) {
-        setfirst(data?.data);
+        setData(data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+      // toast.error("Mail adresi veya şifre yanlış.");
+    }
+  };
+  const getBook = async (id: any) => {
+    try {
+      const data = await axiosInstance.get(`books/${id}`);
+      if ("data" in data) {
+        setBook(data?.data);
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +88,6 @@ const useBooks = () => {
 
     // FormData nesnesi oluşturuluyor
 
-    console.log(values);
     const formData = new FormData();
     if (img) formData.append("file", img);
     formData.append("name", values.name);
@@ -75,6 +119,8 @@ const useBooks = () => {
     sendBook,
     getPersonalBooks,
     data,
+    book,
+    getBook,
   };
 };
 
