@@ -24,6 +24,7 @@ const SelectBookImageButton: React.FC<SelectBookImageButtonProps> = ({ file, set
   return (
     <>
       <button
+      type="button"
         className="partner-button rounded px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-all flex items-center gap-2"
         onClick={handleClick}
       >

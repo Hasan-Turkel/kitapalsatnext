@@ -10,13 +10,14 @@ import {
 import Link from "next/link";
 import { useAtomValue } from "jotai";
 import { tokenAtom } from "../utils/atoms";
-import useAuth from '../utils/useAuth'
+import useAuth from "../utils/useAuth";
 
 const navigation = [{ name: "İkinciElKitapAlSat", href: "/" }];
 
 const Navbar = () => {
   const user = useAtomValue(tokenAtom);
-  const {logout} = useAuth()
+  const { logout } = useAuth();
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -83,8 +84,8 @@ const Navbar = () => {
                   </MenuItem>
                   <MenuItem>
                     <p
-                   
-                      className="cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none" onClick={()=>logout()}
+                      className="cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                      onClick={() => logout()}
                     >
                       Çıkış Yap
                     </p>

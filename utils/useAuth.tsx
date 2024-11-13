@@ -1,4 +1,4 @@
-import instance from "./axios";
+import useAxios from "@/utils/useAxios"
 import { useSetAtom } from "jotai";
 import { tokenAtom } from "./atoms";
 import { useRouter } from "next/navigation";
@@ -14,8 +14,8 @@ interface RegisterValues {
   email: string;
   password: string;
   fullname: string;
-  city:{value:string, label:string} | null;
-  district:{value:string, label:string } | null
+  city: { value: string; label: string } | null;
+  district: { value: string; label: string } | null;
 }
 
 interface UpdatePersonalInfoValues {
@@ -25,13 +25,14 @@ interface UpdatePersonalInfoValues {
 }
 
 const useAuth = () => {
+  const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   const setToken = useSetAtom(tokenAtom);
   const router = useRouter();
 
   // Login işlemi
   const login = async (values: LoginValues) => {
     try {
-      const data = await instance.post(`/auth/login`, values);
+      const data = await axiosInstance.post(`/auth/login`, values);
       if ("bearer" in data) {
         setToken(data?.bearer);
       }
@@ -43,11 +44,12 @@ const useAuth = () => {
       toast.error("Mail adresi veya şifre yanlış.");
     }
   };
-  
+
   const logout = async () => {
     try {
       setToken(null);
       toast.success("Başarıyla çıkış yapıldı.");
+      router.push("/");
     } catch (error) {
       // console.log(error.message);
       toast.error("Çıkış yapılamadı");
@@ -57,7 +59,7 @@ const useAuth = () => {
   // Kayıt işlemi
   const register = async (values: RegisterValues) => {
     try {
-      const data = await instance.post(`/auth/register`, values);
+      const data = await axiosInstance.post(`/auth/register`, values);
       if ("bearer" in data) {
         setToken(data?.bearer);
       }
@@ -65,7 +67,7 @@ const useAuth = () => {
       toast.success("Başarıyla kayıt olundu.");
       router.push("/");
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       toast.error("Mail adresi veya şifre yanlış.");
     }
   };
@@ -75,7 +77,7 @@ const useAuth = () => {
   return {
     login,
     register,
-    logout
+    logout,
     // forgotPassword,
     // updatePersonalInfo,
     // renewPassword,

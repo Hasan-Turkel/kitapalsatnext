@@ -1,7 +1,10 @@
+"use client";
 import { FC, useState } from "react";
 import { Formik, Field, Form } from "formik";
 import SelectBookImageButton from "./SelectBookImageButton";
 import Image from "next/image";
+import * as Yup from "yup"; // Yup'u dahil ediyoruz
+import useBooks from "@/utils/useBooks";
 
 interface SetInfoBookProps {
   arrange: boolean;
@@ -11,6 +14,18 @@ interface SetInfoBookProps {
 const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
   const [file, setFile] = useState<File[]>([]);
 
+  // Yup validasyon şeması
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Kitabın adı zorunludur."), // Kitap adı zorunlu ve string
+    author: Yup.string().required("Yazar adı zorunludur."), // Yazar adı zorunlu ve string
+    bookStore: Yup.string().required("Yayınevi adı zorunludur."), // Yayınevi adı zorunlu ve string
+    publishmentYear: Yup.number().required("Basım yılı zorunludur."), // Basım yılı zorunlu
+    description: Yup.string().required("Açıklama zorunludur."), // Açıklama zorunlu ve string
+    price: Yup.string().required("Fiyat zorunludur."), // Açıklama zorunlu ve string
+  });
+
+  const { sendBook } = useBooks();
+
   return (
     <section className="max-w-[840px] m-auto mt-10">
       {!arrange && (
@@ -18,21 +33,25 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
       )}
 
       <Formik
+        enableReinitialize
         initialValues={{
           name: "",
           author: "",
           bookStore: "",
-          pulishmentYear: new Date().getFullYear().toString(),
+          publishmentYear: new Date().getFullYear().toString(),
           description: "",
+          price:''
         }}
+        validationSchema={validationSchema} // Validation şemasını burada uyguluyoruz
         onSubmit={(values, action) => {
           // Formu submit etme işlemleri
-          console.log("Form values:", values);
-          console.log("Selected file:", file);
-          action.resetForm()
+
+          sendBook(values, file[0]);
+          action.resetForm();
+          setFile([]);
         }}
       >
-        {({ values, handleChange, handleBlur }) => (
+        {({ values, handleChange, handleBlur, errors, touched }) => (
           <Form>
             <div className="my-5 flex flex-wrap gap-5">
               <div className="my-4">
@@ -47,6 +66,9 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
                     required
                   />
                 </div>
+                {touched.name && errors.name && (
+                  <div className="text-red-500 text-xs">{errors.name}</div>
+                )}
               </div>
 
               <div className="my-4">
@@ -61,6 +83,9 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
                     required
                   />
                 </div>
+                {touched.author && errors.author && (
+                  <div className="text-red-500 text-xs">{errors.author}</div>
+                )}
               </div>
 
               <div className="my-4">
@@ -75,20 +100,44 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
                     required
                   />
                 </div>
+                {touched.bookStore && errors.bookStore && (
+                  <div className="text-red-500 text-xs">{errors.bookStore}</div>
+                )}
               </div>
-
               <div className="my-4">
-                <label htmlFor="pulishmentYear">Basım Yılı</label> <br />
+                <label htmlFor="price">Fiyat TL*</label> <br />
                 <div className="border max-w-[350px] px-2 rounded-lg">
                   <Field
                     type="number"
-                    name="pulishmentYear"
+                    name="price"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.pulishmentYear}
+                    value={values.price}
                     required
                   />
                 </div>
+                {touched.price && errors.price && (
+                  <div className="text-red-500 text-xs">{errors.price}</div>
+                )}
+              </div>
+
+              <div className="my-4">
+                <label htmlFor="publishmentYear">Basım Yılı</label> <br />
+                <div className="border max-w-[350px] px-2 rounded-lg">
+                  <Field
+                    type="number"
+                    name="publishmentYear"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.publishmentYear}
+                    required
+                  />
+                </div>
+                {touched.publishmentYear && errors.publishmentYear && (
+                  <div className="text-red-500 text-xs">
+                    {errors.publishmentYear}
+                  </div>
+                )}
               </div>
 
               <div className="my-4">
@@ -104,6 +153,11 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
                     required
                   />
                 </div>
+                {touched.description && errors.description && (
+                  <div className="text-red-500 text-xs">
+                    {errors.description}
+                  </div>
+                )}
               </div>
             </div>
 
