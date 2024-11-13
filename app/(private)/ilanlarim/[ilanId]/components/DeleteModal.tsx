@@ -2,11 +2,19 @@ import React, { FC } from "react";
 
 interface DeleteModalProps {
   isOpen: boolean;
+  id: any;
   onClose: () => void;
+  deleteBook: (id:any) => void;
 }
 
-const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose }) => {
+const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose, deleteBook, id }) => {
   if (!isOpen) return null;
+
+  const handleDelete = ()=> {
+    deleteBook(id);
+    onClose()
+
+  }
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
@@ -19,7 +27,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose }) => {
           </p>
           <div className=" flex gap-5">
             <button
-              onClick={onClose}
+              onClick={handleDelete}
               className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
             >
               Evet, Sil

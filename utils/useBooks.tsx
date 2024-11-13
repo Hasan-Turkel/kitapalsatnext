@@ -79,6 +79,37 @@ const useBooks = () => {
       // toast.error("Mail adresi veya şifre yanlış.");
     }
   };
+  const deleteBook = async (id: any) => {
+    try {
+      const data = await axiosInstance.put(`books/${id}`, { isDeleted: true });
+      toast.success("Kitap başarıyla silindi.");
+
+      setTimeout(() => {
+        router.push("/ilanlarim");
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+      toast.error("Hata");
+    }
+  };
+  const toogleActivateBook = async (id: any, isActive: boolean) => {
+    try {
+      const data = await axiosInstance.put(`books/${id}`, {
+        isActive: !isActive,
+      });
+
+      toast.success(
+        `Kitap başarıyla ${isActive ? "askıya alındı." : "aktif edildi."}`
+      );
+
+      setTimeout(() => {
+        router.push("/ilanlarim");
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+      toast.error("Hata");
+    }
+  };
 
   const sendBook = async (
     values: FormValues,
@@ -121,6 +152,8 @@ const useBooks = () => {
     data,
     book,
     getBook,
+    deleteBook,
+    toogleActivateBook,
   };
 };
 

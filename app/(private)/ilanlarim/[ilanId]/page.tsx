@@ -35,7 +35,7 @@ const page = () => {
     setIsModalOpen({ ...isModalOpen, arrange: false });
   };
 
-  const { book, getBook } = useBooks();
+  const { book, getBook, deleteBook, toogleActivateBook } = useBooks();
 
   const params = useParams(); // Access params using the useParams hook
   const ilanId = params?.ilanId; // Access the specific param after unwrapping
@@ -69,13 +69,23 @@ const page = () => {
             className="text-white border rounded-lg p-3 w-[100px] bg-blue-500 hover:bg-blue-600 transition-colors duration-500 ease-in-out"
             onClick={openSuspendModal}
           >
-            Askıya Al
+
+            {book?.isActive? 'Askıya Al': 'Aktif Et'}
+          
           </button>
         </div>
-        <DeleteModal isOpen={isModalOpen?.delete} onClose={closeDeleteModal} />
+        <DeleteModal
+          isOpen={isModalOpen?.delete}
+          onClose={closeDeleteModal}
+          deleteBook={deleteBook}
+          id={ilanId}
+        />
         <SuspendModal
           isOpen={isModalOpen?.suspend}
           onClose={closeSuspendModal}
+          toogleActivateBook={toogleActivateBook}
+          id={ilanId}
+          isActive = {book?.isActive}
         />
         <ArrangeModal
           isOpen={isModalOpen?.arrange}

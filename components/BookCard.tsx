@@ -30,7 +30,7 @@ const BookCard: FC<BookCardProps> = ({ ads, book }) => {
           <div className="col-span-2">
             <Link
               className="text-sky-700"
-              href={ads ? `/ilanlarim/${id}` : `/${id}`}
+              href={ads ? `/ilanlarim/${id}` : `/al/${id}`}
             >
               {book?.name}
             </Link>
