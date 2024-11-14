@@ -145,6 +145,41 @@ const useBooks = () => {
       toast.error("Bir hata oluştu.");
     }
   };
+  const arrangeBook = async (
+    id:string,
+    values: FormValues,
+    img: File | null
+  ): Promise<void> => {
+    // Token'ı Jotai'dan alıyoruz
+
+    // FormData nesnesi oluşturuluyor
+
+    const formData = new FormData();
+    if (img) formData.append("file", img);
+    formData.append("name", values.name);
+    formData.append("author", values.author);
+    formData.append("bookStore", values.bookStore);
+    formData.append("publishmentYear", values.publishmentYear);
+    formData.append("description", values.description);
+    formData.append("price", values.price);
+
+    try {
+      // POST isteği
+      await axios.put(`http://127.0.0.1:8000/books/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${token}`, // Authorization header'ı ekliyoruz
+        },
+      });
+      // Başarı durumunda bildirim ve yönlendirme
+      toast.success("Kitap başarıyla düzenlendi.");
+      router.push("/ilanlarim");
+    } catch (error) {
+      // Hata durumunda bildirim
+      console.error(error);
+      toast.error("Bir hata oluştu.");
+    }
+  };
 
   return {
     sendBook,
@@ -154,6 +189,7 @@ const useBooks = () => {
     getBook,
     deleteBook,
     toogleActivateBook,
+    arrangeBook,
   };
 };
 

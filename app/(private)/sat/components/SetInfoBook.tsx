@@ -5,13 +5,15 @@ import SelectBookImageButton from "./SelectBookImageButton";
 import Image from "next/image";
 import * as Yup from "yup"; // Yup'u dahil ediyoruz
 import useBooks from "@/utils/useBooks";
+import { Book } from "@/types";
 
 interface SetInfoBookProps {
   arrange: boolean;
   onClose: () => void;
+  book: Book;
 }
 
-const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
+const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
   const [file, setFile] = useState<File[]>([]);
 
   // Yup validasyon şeması
@@ -24,7 +26,7 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
     price: Yup.string().required("Fiyat zorunludur."), // Açıklama zorunlu ve string
   });
 
-  const { sendBook } = useBooks();
+  const { sendBook, arrangeBook } = useBooks();
 
   return (
     <section className="max-w-[840px] m-auto mt-10">
@@ -34,19 +36,24 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
 
       <Formik
         enableReinitialize
-        initialValues={{
-          name: "",
-          author: "",
-          bookStore: "",
-          publishmentYear: new Date().getFullYear().toString(),
-          description: "",
-          price:''
-        }}
+        initialValues={
+          arrange
+            ? book
+            : {
+                name: "",
+                author: "",
+                bookStore: "",
+                publishmentYear: new Date().getFullYear().toString(),
+                description: "",
+                price: "",
+              }
+        }
         validationSchema={validationSchema} // Validation şemasını burada uyguluyoruz
         onSubmit={(values, action) => {
           // Formu submit etme işlemleri
-
+          arrange? arrangeBook(book?._id, values, file[0]) :
           sendBook(values, file[0]);
+          arrange && onClose();
           action.resetForm();
           setFile([]);
         }}
@@ -167,8 +174,8 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
             </div>
 
             {/* Yüklenen dosya görseli */}
-            {file[0] && (
-              <div className="my-4">
+            <div className="my-4">
+              {file[0] ? (
                 <Image
                   src={URL.createObjectURL(file[0])} // Görselin URL'si
                   alt="Book Image"
@@ -176,16 +183,26 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose }) => {
                   height={200}
                   className="object-contain"
                 />
-              </div>
-            )}
+              ) : (
+                arrange &&
+                book?.photo && (
+                  <Image
+                    src={book?.photo} // Görselin URL'si
+                    alt="Book Image"
+                    width={200}
+                    height={200}
+                    className="object-contain"
+                  />
+                )
+              )}
+            </div>
 
             {/* Yayımlama ve düzenleme butonları */}
             <div className="my-4">
               {arrange ? (
                 <div className="flex gap-5">
                   <button
-                    type="button"
-                    onClick={onClose}
+                    type="submit"
                     className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                   >
                     Düzenle

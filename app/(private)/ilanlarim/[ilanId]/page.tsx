@@ -90,6 +90,7 @@ const page = () => {
         <ArrangeModal
           isOpen={isModalOpen?.arrange}
           onClose={closeArrangeModal}
+          book={book}
         />
       </section>
     </main>
