@@ -12,8 +12,10 @@ export default function PrivateLayout({
 }) {
   const token = Storage?.getItem("token");
   const router = useRouter();
+
   useEffect(() => {
     if (!token) {
+      console.log(token);
       toast.warning("Bu işlem için öncelikle giriş yapmalısınız.");
       router.push("/login");
     }

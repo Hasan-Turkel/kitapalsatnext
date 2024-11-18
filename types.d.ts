@@ -56,3 +56,40 @@ export interface User {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+// User ve Book koleksiyonlarına ait referanslar
+export interface IUser {
+  _id: String;
+  // Diğer user özelliklerini buraya ekleyebilirsiniz
+}
+
+export interface IBook {
+  _id: String;
+  // Diğer book özelliklerini buraya ekleyebilirsiniz
+}
+
+// Participant tipini tanımlıyoruz
+export interface IParticipant {
+  user_id: string;  // User referansı
+  lastSeen: date | string;
+}
+
+// Message tipini tanımlıyoruz
+export interface IMessage {
+  user_id: string;  // User referansı
+  date: date;
+  message: string;
+}
+
+// Main model (Message modelinin) interface'ini tanımlıyoruz
+export interface IMessageModel {
+  book_id: string;  // Book referansı
+  participants: IParticipant[];
+  messages: IMessage[];
+}
+export interface MessageGetType {
+  book_id: Book;  // Book referansı
+  participants: IParticipant[];
+  messages: IMessage[];
+ _id:string
+}

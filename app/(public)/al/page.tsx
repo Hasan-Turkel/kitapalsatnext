@@ -6,8 +6,8 @@ const page = () => {
   return (
     <main className="p-3">
       <FindBook />
-      <FoundBook/>
-      <LastAddedBook/>
+      <FoundBook />
+      <LastAddedBook />
     </main>
   );
 };

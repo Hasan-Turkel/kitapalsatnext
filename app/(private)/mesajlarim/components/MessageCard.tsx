@@ -1,13 +1,18 @@
-'use client'
-
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, FC } from "react";
 import DeleteModal from "./DeleteModal";
+import { MessageGetType } from "@/types";
+import { useSetAtom } from "jotai"; // Jotai atomunu okuma
+import { bookAtom, messageIdAtom } from "@/utils/atoms";
 
-const MessageCard = () => {
+interface MessageCardProps {
+  message: MessageGetType;
+}
 
+const MessageCard: FC<MessageCardProps> = ({ message }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openDeleteModal = () => {
@@ -16,27 +21,44 @@ const MessageCard = () => {
   const closeDeleteModal = () => {
     setIsModalOpen(false);
   };
+
+  const setBook = useSetAtom(bookAtom);
+  const setMessageId = useSetAtom(messageIdAtom);
+
+  const handleSetBook = () => {
+    setBook({
+      bookId: message?.book_id?._id,
+      bookName: message?.book_id?.name,
+      bookSellerId: message?.book_id?.user_id._id,
+      bookSeller: message?.book_id?.user_id?.fullname,
+    });
+    setMessageId(message?._id);
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center p-2 border rounded-lg  gap-2 ">
       <Image
-        src="/book.jpg" // Buraya gerçek görsel yolunuzu yazın
+        src={message?.book_id?.photo} // Buraya gerçek görsel yolunuzu yazın
         alt="A description of the image"
         width={100} // Genişlik
         height={100} // Yükseklik
         className="object-contain col-auto" // object-fit: contain
       />
-      <Link href={"mesajlas"}>
+      <Link href={"/mesajlas"} onClick={handleSetBook}>
         <div className="col-span-2">
-          <p>Hasan Türkel </p>
-          <p>Anadolu Üniversitesi Yayınları Medeni Hukuk 1 Ders Kitabı </p>
-          <p>07.11.2024 15.41 </p>
+          <p>{message?.book_id?.name} </p>
+          <p>{message?.book_id?.user_id?.fullname} </p>
+          <p>{message?.messages.slice(-1)[0].date}</p>
         </div>
       </Link>
 
-      <button className="bg-red-500 hover:bg-red-600 transition-colors duration-500 ease-in-out ms-auto w-[100px] rounded-lg p-2 text-white" onClick={openDeleteModal}>
+      <button
+        className="bg-red-500 hover:bg-red-600 transition-colors duration-500 ease-in-out ms-auto w-[100px] rounded-lg p-2 text-white"
+        onClick={openDeleteModal}
+      >
         Sil
       </button>
-      <DeleteModal isOpen={isModalOpen} onClose={closeDeleteModal}/>
+      <DeleteModal isOpen={isModalOpen} onClose={closeDeleteModal} />
     </div>
   );
 };
