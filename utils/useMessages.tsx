@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { IMessageModel } from "@/types";
 import { useSetAtom } from "jotai"; // Jotai atomunu okuma
-import { messageIdAtom } from "@/utils/atoms";
+import { messageIdAtom, newMessageAtom } from "@/utils/atoms";
 
 const useMessages = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
@@ -11,6 +11,7 @@ const useMessages = () => {
   const [message, setMessage] = useState<any>();
 
   const setMessageId = useSetAtom(messageIdAtom);
+  const setNewMessage = useSetAtom(newMessageAtom);
 
   const sendMessage = async (values: IMessageModel) => {
     try {
@@ -21,14 +22,25 @@ const useMessages = () => {
       toast.error("Mesaj gönderilemedi.");
     }
   };
-  const updateMessage = async (values:{message:string}, id:string) => {
+  const updateMessage = async (
+    values: { message: string; date: any },
+    id: string
+  ) => {
     try {
-     const data =  await axiosInstance.put(`/messages/${id}`, values);
-     if ("data" in data) {
-      setMessage(data?.data);
-   
-    }
+      const data = await axiosInstance.put(`/messages/${id}`, values);
+      if ("data" in data) {
+        setMessage(data?.data);
+      }
       toast.success("Mesaj gönderildi..");
+    } catch (error) {
+      console.log(error);
+      toast.error("Mesaj gönderilemedi.");
+    }
+  };
+  const hasBeenRed = async (values: { date: any }, id: string) => {
+    try {
+      await axiosInstance.put(`/messages/red/${id}`, values);
+      isNewMessage();
     } catch (error) {
       console.log(error);
       toast.error("Mesaj gönderilemedi.");
@@ -39,8 +51,6 @@ const useMessages = () => {
       const data = await axiosInstance.get(`/messages`);
       if ("data" in data) {
         setData(data?.data);
-
-      
       }
     } catch (error) {
       // console.log(error);
@@ -73,8 +83,30 @@ const useMessages = () => {
       toast.error("Mesaj gönderilemedi.");
     }
   };
+  const isNewMessage = async () => {
+    try {
+      const data = await axiosInstance.get(`/messages/isNewMessage`);
 
-  return { sendMessage, getMessages, data, getMessage, message, isThereMessage, updateMessage };
+      if ("data" in data) {
+        setNewMessage(data?.data);
+      }
+    } catch (error) {
+      // console.log(error);
+      toast.error("Mesaj gönderilemedi.");
+    }
+  };
+
+  return {
+    sendMessage,
+    getMessages,
+    data,
+    getMessage,
+    message,
+    isThereMessage,
+    updateMessage,
+    isNewMessage,
+    hasBeenRed,
+  };
 };
 
 export default useMessages;

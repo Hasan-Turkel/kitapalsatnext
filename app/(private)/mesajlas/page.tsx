@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { useAtomValue } from "jotai"; // Jotai atomunu okuma
-import { bookAtom, messageIdAtom } from "@/utils/atoms";
+import { bookAtom, messageIdAtom, newMessageAtom } from "@/utils/atoms";
 import { Form, Formik, Field } from "formik";
 import useMessages from "@/utils/useMessages";
 import useUser from "@/utils/useUser";
@@ -11,12 +11,13 @@ const page = () => {
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const book = useAtomValue(bookAtom);
   const messageId = useAtomValue(messageIdAtom);
-  const { sendMessage, message, getMessage, isThereMessage, updateMessage } =
+  const { sendMessage, message, getMessage, isThereMessage, updateMessage, hasBeenRed } =
     useMessages();
   const { user, getUser } = useUser();
 
   useEffect(() => {
     getUser();
+    hasBeenRed({date: new Date}, messageId)
 
     if (!messageId) {
       isThereMessage(book?.bookId);
@@ -31,6 +32,11 @@ const page = () => {
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
     }
   }, [message]);
+
+
+  const newMessage = useAtomValue(newMessageAtom);
+
+  console.log(newMessage)
   return (
     <main className="p-3 ">
       <section
@@ -61,7 +67,7 @@ const page = () => {
             initialValues={{ message: "" }} // Formun başlangıç değerleri
             onSubmit={(values, { resetForm }) => {
               messageId
-                ? updateMessage({ message: values?.message }, messageId)
+                ? updateMessage({ message: values?.message, date: new Date() }, messageId)
                 : sendMessage({
                     book_id: book?.bookId,
                     messages: [

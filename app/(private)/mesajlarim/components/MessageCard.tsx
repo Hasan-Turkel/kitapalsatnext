@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import DeleteModal from "./DeleteModal";
 import { MessageGetType } from "@/types";
 import { useSetAtom } from "jotai"; // Jotai atomunu okuma
 import { bookAtom, messageIdAtom } from "@/utils/atoms";
+import useUser from "@/utils/useUser";
 
 interface MessageCardProps {
   message: MessageGetType;
@@ -14,6 +15,12 @@ interface MessageCardProps {
 
 const MessageCard: FC<MessageCardProps> = ({ message }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { getUser, user } = useUser();
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const openDeleteModal = () => {
     setIsModalOpen(true);
@@ -24,6 +31,17 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
 
   const setBook = useSetAtom(bookAtom);
   const setMessageId = useSetAtom(messageIdAtom);
+
+  const filtered =
+    message.participants?.filter(
+      (participant) => participant?.user_id == user._id
+    )[0]?.lastSeen == "0" ||
+    new Date(
+      message.participants?.filter(
+        (participant) => participant?.user_id == user._id
+      )[0]?.lastSeen
+    ).getTime() <
+      new Date(message.messages[message.messages.length - 1].date).getTime();
 
   const handleSetBook = () => {
     setBook({
@@ -36,7 +54,7 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center p-2 border rounded-lg  gap-2 ">
+    <div className=" relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center p-2 border rounded-lg  gap-2 ">
       <Image
         src={message?.book_id?.photo} // Buraya gerçek görsel yolunuzu yazın
         alt="A description of the image"
@@ -58,6 +76,12 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
       >
         Sil
       </button>
+      {filtered && (
+        <span className="absolute top-0 right-0  text-red-500 mx-2">
+          Okunmamış mesajınız var
+        </span>
+      )}
+
       <DeleteModal isOpen={isModalOpen} onClose={closeDeleteModal} />
     </div>
   );
