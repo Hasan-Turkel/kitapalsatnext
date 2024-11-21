@@ -10,5 +10,5 @@ export const getBooks = async () => {
     throw new Error("Failed to fetch data");
   }
   const results = await res.json();
-  return results?.data;
+  return results;
 };

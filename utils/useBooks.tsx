@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
-import { Book } from "@/app/(private)/ilanlarim/components/AdsList";
+import { Book } from "@/types";
 
 // Login ve Register form değerlerinin tipi
 interface FormValues {
@@ -22,6 +22,7 @@ const useBooks = () => {
   const router = useRouter();
   const token = useAtomValue(tokenAtom);
   const [data, setData] = useState([]);
+  const [count, setCount] = useState(1);
   const [book, setBook] = useState<Book>({
     author: "",
     price: "",
@@ -62,6 +63,21 @@ const useBooks = () => {
       const data = await axiosInstance.get(`books/personalBooks`);
       if ("data" in data) {
         setData(data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+      // toast.error("Mail adresi veya şifre yanlış.");
+    }
+  };
+  const getBooks = async (page:number) => {
+    try {
+      const data = await axiosInstance.get(`books/?page=${page}`);
+      console.log(page)
+      if ("data" in data) {
+        setData(data?.data);
+      }
+      if ("count" in data && typeof data?.count == 'number') {
+        setCount(data?.count);
       }
     } catch (error) {
       console.log(error);
@@ -146,7 +162,7 @@ const useBooks = () => {
     }
   };
   const arrangeBook = async (
-    id:string,
+    id: string,
     values: FormValues,
     img: File | null
   ): Promise<void> => {
@@ -190,6 +206,8 @@ const useBooks = () => {
     deleteBook,
     toogleActivateBook,
     arrangeBook,
+    getBooks,
+    count
   };
 };
 

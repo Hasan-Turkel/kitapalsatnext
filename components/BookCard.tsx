@@ -1,4 +1,5 @@
-import { Book } from "@/app/(private)/ilanlarim/components/AdsList";
+
+import { Book } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
