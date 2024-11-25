@@ -15,14 +15,17 @@ const page = () => {
     useMessages();
   const { user, getUser } = useUser();
 
+  console.log(messageId)
+
   useEffect(() => {
     getUser();
-    hasBeenRed({date: new Date}, messageId)
+ 
 
     if (!messageId) {
       isThereMessage(book?.bookId);
     } else if (messageId) {
       getMessage(messageId);
+      hasBeenRed({date: new Date}, messageId)
     }
 
   }, [messageId]);

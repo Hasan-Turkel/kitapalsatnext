@@ -56,7 +56,7 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
   return (
     <div className=" relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center p-2 border rounded-lg  gap-2 ">
       <Image
-        src={message?.book_id?.photo} // Buraya gerçek görsel yolunuzu yazın
+        src={message?.book_id?.photo || "/book.jpg"} // Buraya gerçek görsel yolunuzu yazın
         alt="A description of the image"
         width={100} // Genişlik
         height={100} // Yükseklik

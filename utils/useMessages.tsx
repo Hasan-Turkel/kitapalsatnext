@@ -15,7 +15,13 @@ const useMessages = () => {
 
   const sendMessage = async (values: IMessageModel) => {
     try {
-      await axiosInstance.post(`/messages`, values);
+      const data = await axiosInstance.post(`/messages`, values);
+      if ("data" in data) {
+        setMessage(data?.data);
+        if ("_id" in data?.data) {
+          setMessageId(data?.data?._id);
+        }
+      }
       toast.success("Mesaj gönderildi..");
     } catch (error) {
       // console.log(error);
