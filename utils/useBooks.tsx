@@ -22,7 +22,9 @@ const useBooks = () => {
   const router = useRouter();
   const token = useAtomValue(tokenAtom);
   const [data, setData] = useState([]);
-  const [count, setCount] = useState(1);
+  const [last, setLast] = useState([]);
+  const [count, setCount] = useState(0);
+  const [lastCount, setLastCount] = useState(0);
   const [book, setBook] = useState<Book>({
     author: "",
     price: "",
@@ -69,15 +71,30 @@ const useBooks = () => {
       // toast.error("Mail adresi veya şifre yanlış.");
     }
   };
-  const getBooks = async (page:number) => {
+  const getBooks = async (page:number, queryParams='') => {
     try {
-      const data = await axiosInstance.get(`books/?page=${page}`);
-      console.log(page)
+      const data = await axiosInstance.get(`books/?page=${page}${queryParams && '&'+queryParams}`);
+      
       if ("data" in data) {
         setData(data?.data);
       }
       if ("count" in data && typeof data?.count == 'number') {
         setCount(data?.count);
+      }
+    } catch (error) {
+      console.log(error);
+      // toast.error("Mail adresi veya şifre yanlış.");
+    }
+  };
+  const getLastBooks = async (page:number) => {
+    try {
+      const data = await axiosInstance.get(`books/?page=${page}`);
+    
+      if ("data" in data) {
+        setLast(data?.data);
+      }
+      if ("count" in data && typeof data?.count == 'number') {
+        setLastCount(data?.count);
       }
     } catch (error) {
       console.log(error);
@@ -207,7 +224,10 @@ const useBooks = () => {
     toogleActivateBook,
     arrangeBook,
     getBooks,
-    count
+    count,
+    last,
+    lastCount,
+    getLastBooks
   };
 };
 

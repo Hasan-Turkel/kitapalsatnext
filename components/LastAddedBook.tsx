@@ -7,10 +7,10 @@ import Pagination from "./Pagination";
 import { useEffect } from "react";
 
 const LastAddedBook =  () => {
-  const {getBooks, data:books, count} = useBooks()
+  const {getLastBooks, last:books, lastCount} = useBooks()
 
   useEffect(() => {
-    getBooks(1)
+    getLastBooks(1)
   }, [])
   
  
@@ -22,7 +22,7 @@ const LastAddedBook =  () => {
           <BookCard ads={false} key={book?._id} book={book} />
         ))}
       </div>
-      <Pagination count = {count} getBooks={getBooks}/>
+      <Pagination count = {lastCount} getBooks={getLastBooks} params=""/>
     </section>
   );
 };

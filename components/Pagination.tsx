@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 
 interface PaginationProps {
   count: number;
-  getBooks: (page: number) => void;
+  getBooks: (page: number, params:string) => void;
+  params:string
 }
 
-const Pagination: FC<PaginationProps> = ({ count, getBooks }) => {
+const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const next = Math.ceil(count / 10) > page;
@@ -17,7 +18,7 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks }) => {
   const handlePage = (num: number) => {
     router.push(`/?page=${num}`);
     setPage(num);
-    getBooks(num);
+    getBooks(num, params);
   };
   return (
     <div className="flex justify-center">
