@@ -4,12 +4,13 @@ import { useState } from "react";
 import { IMessageModel } from "@/types";
 import { useSetAtom } from "jotai"; // Jotai atomunu okuma
 import { messageIdAtom, newMessageAtom } from "@/utils/atoms";
+import { useRouter } from "next/navigation";
 
 const useMessages = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   const [data, setData] = useState([]);
   const [message, setMessage] = useState<any>();
-
+const router= useRouter()
   const setMessageId = useSetAtom(messageIdAtom);
   const setNewMessage = useSetAtom(newMessageAtom);
 
@@ -43,10 +44,12 @@ const useMessages = () => {
       toast.error("Mesaj gönderilemedi.");
     }
   };
-  const hasBeenRed = async (values: { date: any }, id: string) => {
+  const hasBeenRedOrDelete = async (values: { date: any }, id: string) => {
     try {
-      await axiosInstance.put(`/messages/red/${id}`, values);
+      await axiosInstance.put(`/messages/redOrDelete/${id}`, values);
       isNewMessage();
+      values?.date=='-1' &&  toast.success("Mesaj silindi.");
+      values?.date=='-1' && router.push('/')
     } catch (error) {
       console.log(error);
       toast.error("Mesaj gönderilemedi.");
@@ -111,7 +114,7 @@ const useMessages = () => {
     isThereMessage,
     updateMessage,
     isNewMessage,
-    hasBeenRed,
+    hasBeenRedOrDelete,
   };
 };
 

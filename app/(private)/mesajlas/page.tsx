@@ -11,35 +11,35 @@ const page = () => {
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const book = useAtomValue(bookAtom);
   const messageId = useAtomValue(messageIdAtom);
-  const { sendMessage, message, getMessage, isThereMessage, updateMessage, hasBeenRed } =
-    useMessages();
+  const {
+    sendMessage,
+    message,
+    getMessage,
+    isThereMessage,
+    updateMessage,
+    hasBeenRedOrDelete,
+  } = useMessages();
   const { user, getUser } = useUser();
-
-  console.log(messageId)
 
   useEffect(() => {
     getUser();
- 
 
     if (!messageId) {
       isThereMessage(book?.bookId);
     } else if (messageId) {
       getMessage(messageId);
-      hasBeenRed({date: new Date}, messageId)
+      hasBeenRedOrDelete({ date: new Date() }, messageId);
     }
-
   }, [messageId]);
   useEffect(() => {
-    
     if (messageBoxRef.current) {
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
     }
   }, [message]);
 
-
   const newMessage = useAtomValue(newMessageAtom);
 
-  console.log(newMessage)
+  console.log(newMessage);
   return (
     <main className="p-3 ">
       <section
@@ -70,7 +70,10 @@ const page = () => {
             initialValues={{ message: "" }} // Formun başlangıç değerleri
             onSubmit={(values, { resetForm }) => {
               messageId
-                ? updateMessage({ message: values?.message, date: new Date() }, messageId)
+                ? updateMessage(
+                    { message: values?.message, date: new Date() },
+                    messageId
+                  )
                 : sendMessage({
                     book_id: book?.bookId,
                     messages: [

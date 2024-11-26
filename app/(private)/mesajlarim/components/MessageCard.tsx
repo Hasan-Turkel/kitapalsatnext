@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, FC, useEffect } from "react";
-import DeleteModal from "./DeleteModal";
 import { MessageGetType } from "@/types";
 import { useSetAtom } from "jotai"; // Jotai atomunu okuma
 import { bookAtom, messageIdAtom } from "@/utils/atoms";
 import useUser from "@/utils/useUser";
+import DeleteModal from "./DeleteModal";
 
 interface MessageCardProps {
   message: MessageGetType;
@@ -82,7 +82,7 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
         </span>
       )}
 
-      <DeleteModal isOpen={isModalOpen} onClose={closeDeleteModal} />
+      <DeleteModal isOpen={isModalOpen} onClose={closeDeleteModal} id={message?._id}/>
     </div>
   );
 };

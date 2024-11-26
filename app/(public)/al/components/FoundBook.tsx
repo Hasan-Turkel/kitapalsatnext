@@ -28,16 +28,16 @@ const FoundBook = () => {
     <>
     {params&& <section className="max-w-[840px] m-auto my-10">
         <h2 className="text-3xl my-5">
-          Aradığınız kriterlere uygun {count} kitap bulundu.
+          Aradığınız kriterlere uygun {count>0 ? count + ' kitap bulundu.' : 'kitap bulunamadı.'} 
         </h2>
 
         {count >0&& <div>
           {books.map((book: Book) => (
             <BookCard ads={false} key={book?._id} book={book} />
           ))}
+        <Pagination count = {count} getBooks={getBooks} params={params}/>
         </div>}
 
-        <Pagination count = {count} getBooks={getBooks} params={params}/>
       </section>}
      
       {count==0&&  <LastAddedBook />}

@@ -1,12 +1,25 @@
 import React, { FC } from "react";
+import useMessages from '@/utils/useMessages'
 
 interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
+  id:string
 }
 
-const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose }) => {
+const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose, id }) => {
+
+  const {hasBeenRedOrDelete} = useMessages()
+
+  const deleteMessage = ()=>{
+   
+    hasBeenRedOrDelete({date:'-1'}, id)
+    onClose()
+
+  }
   if (!isOpen) return null;
+
+  
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
@@ -19,7 +32,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose }) => {
           </p>
           <div className=" flex gap-5">
             <button
-              onClick={onClose}
+              onClick={deleteMessage}
               className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
             >
               Evet, Sil
