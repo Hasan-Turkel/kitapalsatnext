@@ -23,6 +23,8 @@ const useBooks = () => {
   const token = useAtomValue(tokenAtom);
   const [data, setData] = useState([]);
   const [last, setLast] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [count, setCount] = useState(0);
   const [lastCount, setLastCount] = useState(0);
   const [book, setBook] = useState<Book>({
@@ -82,9 +84,8 @@ const useBooks = () => {
         setCount(data?.count);
       }
     } catch (error) {
-      console.log(error);
-      // toast.error("Mail adresi veya şifre yanlış.");
-    }
+    setError(true)
+    }finally {setLoading(false)} 
   };
   const getLastBooks = async (page:number) => {
     try {
@@ -97,9 +98,8 @@ const useBooks = () => {
         setLastCount(data?.count);
       }
     } catch (error) {
-      console.log(error);
-      // toast.error("Mail adresi veya şifre yanlış.");
-    }
+     setError(true)
+    } finally {setLoading(false)} 
   };
   const getBook = async (id: any) => {
     try {
@@ -108,9 +108,8 @@ const useBooks = () => {
         setBook(data?.data);
       }
     } catch (error) {
-      console.log(error);
-      // toast.error("Mail adresi veya şifre yanlış.");
-    }
+      setError(true)
+    } finally {setLoading(false)} 
   };
   const deleteBook = async (id: any) => {
     try {
@@ -227,7 +226,9 @@ const useBooks = () => {
     count,
     last,
     lastCount,
-    getLastBooks
+    getLastBooks,
+    loading,
+    error
   };
 };
 

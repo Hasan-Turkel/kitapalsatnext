@@ -22,13 +22,17 @@ const page = () => {
   const { user, getUser } = useUser();
 
   useEffect(() => {
-    getUser();
 
-    if (!messageId) {
-      isThereMessage(book?.bookId);
-    } else if (messageId) {
-      getMessage(messageId);
-      hasBeenRedOrDelete({ date: new Date() }, messageId);
+    if(user?.fullname) {
+      
+      getUser();
+  
+      if (!messageId) {
+        isThereMessage(book?.bookId);
+      } else if (messageId) {
+        getMessage(messageId);
+        hasBeenRedOrDelete({ date: new Date() }, messageId);
+      }
     }
   }, [messageId]);
   useEffect(() => {

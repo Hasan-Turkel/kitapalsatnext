@@ -47,7 +47,8 @@ const FindBook = () => {
 
   const currentUrl = window.location.href;
   const urlObj = new URL(currentUrl);
-  const handleSave = (values:any) => {
+  const handleSave = (values: any) => {
+    console.log(values)
     const params = new URLSearchParams(urlObj?.search);
     const keysToRemove = [
       "bookName",
@@ -106,13 +107,12 @@ const FindBook = () => {
             publicationYear: "",
           }}
           onSubmit={(values, action) => {
-            // Handle form submission
+            console.log(values);
             handleSave({ ...values, city, district });
-            setOpen(false)
-            action.resetForm()
+            setOpen(false);
           }}
         >
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange, handleBlur, resetForm }) => (
             <Form>
               <div className="my-5 flex flex-wrap gap-5">
                 <div className="my-4">
@@ -252,12 +252,23 @@ const FindBook = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-4">
+              <div className="my-4 flex gap-2 flex-wrap">
                 <button
                   type="submit"
                   className="text-white rounded-lg bg-blue-500 p-3 h-[40px] w-[350px] hover:bg-blue-600 transition-colors duration-500 ease-in-out"
                 >
                   Ara
+                </button>
+                <button
+                  type="button"
+                  className="text-white rounded-lg bg-yellow-500 p-3 h-[40px] w-[350px] hover:bg-yellow-600 transition-colors duration-500 ease-in-out"
+                  onClick={() => {
+                    window.location.href = '/al'
+                  }
+                  
+                  }
+                >
+                 Filtreleri Temizle
                 </button>
               </div>
             </Form>

@@ -19,6 +19,8 @@ const useUsers = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   //   const token = useAtomValue(tokenAtom);
   const [user, setUser] = useState<User>(initialState);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const getUser = async () => {
     try {
@@ -27,13 +29,15 @@ const useUsers = () => {
         setUser(data?.data);
       }
     } catch (error) {
-      console.log(error);
-    }
+      setError(true)
+    } finally {setLoading(false)}
   };
 
   return {
     getUser,
     user,
+    loading,
+    error
   };
 };
 
