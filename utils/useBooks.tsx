@@ -69,9 +69,8 @@ const useBooks = () => {
         setData(data?.data);
       }
     } catch (error) {
-      console.log(error);
-      // toast.error("Mail adresi veya şifre yanlış.");
-    }
+      setError(true)
+    }finally {setLoading(false)} 
   };
   const getBooks = async (page:number, queryParams='') => {
     try {

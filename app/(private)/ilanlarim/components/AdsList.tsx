@@ -4,24 +4,33 @@ import BookCard from "@/components/BookCard";
 import { Book } from "@/types";
 import useBooks from "@/utils/useBooks";
 import { useEffect } from "react";
-
+import Loading from "@/app/Loading";
 
 const AdsList = () => {
-  const { data: books, getPersonalBooks } = useBooks();
+  const { data: books, getPersonalBooks, loading, error } = useBooks();
 
   useEffect(() => {
     getPersonalBooks();
   }, []);
 
- 
-
-  return (
-    <section className="max-w-[840px] m-auto my-10">
-      {books.map((book: Book) => (
-        <BookCard ads={true} key={book?._id} book={book} />
-      ))}
-    </section>
-  );
+  if (loading) {
+    return <Loading />;
+  } else if (error) {
+    return (
+      <h2 className="text-xl my-5 text-red-500 ">
+        İlanlar Yüklenemedi
+      </h2>
+    );
+  } else {
+    return (
+      <section className="max-w-[840px] m-auto my-10">
+        {books?.length>0? books.map((book: Book) => (
+          <BookCard ads={true} key={book?._id} book={book} />
+        )): <h2>İlanınız Bulunmuyor.</h2>}
+       
+      </section>
+    );
+  }
 };
 
 export default AdsList;

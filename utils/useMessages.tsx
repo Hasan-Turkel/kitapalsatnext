@@ -10,7 +10,9 @@ const useMessages = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   const [data, setData] = useState([]);
   const [message, setMessage] = useState<any>();
-const router= useRouter()
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const router = useRouter();
   const setMessageId = useSetAtom(messageIdAtom);
   const setNewMessage = useSetAtom(newMessageAtom);
 
@@ -48,8 +50,8 @@ const router= useRouter()
     try {
       await axiosInstance.put(`/messages/redOrDelete/${id}`, values);
       isNewMessage();
-      values?.date=='-1' &&  toast.success("Mesaj silindi.");
-      values?.date=='-1' && router.push('/')
+      values?.date == "-1" && toast.success("Mesaj silindi.");
+      values?.date == "-1" && router.push("/");
     } catch (error) {
       console.log(error);
       toast.error("Mesaj gönderilemedi.");
@@ -62,9 +64,9 @@ const router= useRouter()
         setData(data?.data);
       }
     } catch (error) {
-      // console.log(error);
+      setError(true)
       toast.error("Mesaj gönderilemedi.");
-    }
+    } finally {setLoading(false)}
   };
   const getMessage = async (id: string) => {
     try {
@@ -74,9 +76,8 @@ const router= useRouter()
         setMessage(data?.data);
       }
     } catch (error) {
-      // console.log(error);
-      toast.error("Mesaj gönderilemedi.");
-    }
+      setError(true)
+    } finally {setLoading(false)}
   };
   const isThereMessage = async (id: string) => {
     try {
@@ -115,6 +116,8 @@ const router= useRouter()
     updateMessage,
     isNewMessage,
     hasBeenRedOrDelete,
+    loading,
+    error,
   };
 };
 
