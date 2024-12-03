@@ -28,7 +28,7 @@ const SuspendModal: FC<SuspendModalProps> = ({
         <div className="flex justify-between items-center"></div>
         <div className="mt-4">
           {" "}
-          <p className="text-lg">
+          <p className="text-lg text-black">
             Bu ilanı {isActive? 'askıya almak': 'aktif etmek'}  istediğinizden emin misiniz?
           </p>
           <div className=" flex gap-5">

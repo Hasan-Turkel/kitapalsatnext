@@ -27,7 +27,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose, id }) => {
         <div className="flex justify-between items-center"></div>
         <div className="mt-4">
           {" "}
-          <p className="text-lg">
+          <p className="text-lg text-black">
             Bu mesajı silmek istediğinizden emin misiniz?
           </p>
           <div className=" flex gap-5">

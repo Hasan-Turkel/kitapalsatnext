@@ -117,8 +117,9 @@ const FindBook = () => {
               <div className="my-5 flex flex-wrap gap-5">
                 <div className="my-4">
                   <label htmlFor="bookName">Kitabın Adı</label> <br />
-                  <div className="border max-w-[350px] px-2 rounded-lg">
+                  <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                     <Field
+                    className='text-black'
                       type="text"
                       id="bookName"
                       name="bookName"
@@ -130,8 +131,9 @@ const FindBook = () => {
                 </div>
                 <div className="my-4">
                   <label htmlFor="authorName">Yazar Adı</label> <br />
-                  <div className="border max-w-[350px] px-2 rounded-lg">
+                  <div className="border  bg-white max-w-[350px] px-2 rounded-lg">
                     <Field
+                    className='text-black'
                       type="text"
                       id="authorName"
                       name="authorName"
@@ -143,8 +145,9 @@ const FindBook = () => {
                 </div>
                 <div className="my-4">
                   <label htmlFor="publisher">Yayınevi Adı</label> <br />
-                  <div className="border max-w-[350px] px-2 rounded-lg">
+                  <div className="border  bg-white max-w-[350px] px-2 rounded-lg">
                     <Field
+                    className='text-black'
                       type="text"
                       id="publisher"
                       name="publisher"
@@ -156,8 +159,9 @@ const FindBook = () => {
                 </div>
                 <div className="my-4">
                   <label htmlFor="publicationYear">Basım Yılı</label> <br />
-                  <div className="border w-[350px] px-2 rounded-lg">
+                  <div className="border  bg-white w-[350px] px-2 rounded-lg">
                     <Field
+                    className='text-black'
                       type="number"
                       id="publicationYear"
                       name="publicationYear"
@@ -169,7 +173,7 @@ const FindBook = () => {
                 </div>
                 <div className="my-4">
                   <label htmlFor="city">İl</label> <br />
-                  <div className="border w-[350px] px-2 rounded-lg">
+                  <div className="border  bg-white w-[350px] px-2 rounded-lg">
                     <Select
                       components={{
                         DropdownIndicator: () => null,
@@ -194,6 +198,7 @@ const FindBook = () => {
                           border: "none",
                           boxShadow: "none",
                           cursor: "pointer",
+                          color:'black'
                         }),
                       }}
                       className="selectbox"
@@ -210,7 +215,7 @@ const FindBook = () => {
                 </div>
                 <div className="my-4">
                   <label htmlFor="district">İlçe</label> <br />
-                  <div className="border w-[350px] px-2 rounded-lg">
+                  <div className="border  bg-white w-[350px] px-2 rounded-lg">
                     <Select
                       components={{
                         DropdownIndicator: () => null,
@@ -235,6 +240,7 @@ const FindBook = () => {
                           border: "none",
                           boxShadow: "none",
                           cursor: "pointer",
+                           color:'black'
                         }),
                       }}
                       className="selectbox"

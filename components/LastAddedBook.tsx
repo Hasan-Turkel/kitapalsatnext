@@ -18,7 +18,7 @@ const LastAddedBook = () => {
     return <Loading />;
   } else if (error) {
     return (
-      <h2 className="text-xl my-5 text-red-500 ">
+      <h2 className="text-xl m-5 text-red-500 ">
         Son Eklenen Kitaplar Yüklenemedi
       </h2>
     );

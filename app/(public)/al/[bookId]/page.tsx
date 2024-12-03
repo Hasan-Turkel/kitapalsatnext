@@ -38,7 +38,7 @@ const page = () => {
     return <Loading />;
   } else if (error) {
     return (
-      <h2 className="text-xl my-5 text-red-500 ">
+      <h2 className="text-xl m-5 text-red-500 ">
         Aranan Kitaplar Yüklenemedi
       </h2>
     );

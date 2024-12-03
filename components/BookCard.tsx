@@ -15,7 +15,7 @@ const BookCard: FC<BookCardProps> = ({ ads, book }) => {
     <div
       className={
         "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center p-2 border rounded-lg  gap-2 my-2 " +
-        (book?.isActive == false && "opacity-50")
+        (book?.isActive == false && "opacity-70")
       }
     >
       {book && (
@@ -43,6 +43,8 @@ const BookCard: FC<BookCardProps> = ({ ads, book }) => {
             <p>İl: {book?.user_id?.city?.label}</p>
             <p>İlçe: {book?.user_id?.district?.label}</p>
           </div>
+
+          {book?.isActive == false &&  <p>Bu ilan aktif değil.</p>}
         </>
       )}
     </div>

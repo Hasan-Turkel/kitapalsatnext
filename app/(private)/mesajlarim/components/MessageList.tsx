@@ -5,20 +5,24 @@ import MessageCard from "./MessageCard";
 import useMessages from "@/utils/useMessages";
 import { MessageGetType } from "@/types";
 import Loading from "@/app/Loading";
+import { useAtomValue } from "jotai";
+import { tokenAtom } from "@/utils/atoms";
+
 
 const messageList = () => {
   const { getMessages, data: messages, loading, error } = useMessages();
+  const token = useAtomValue(tokenAtom)
 
   useEffect(() => {
-    getMessages();
-  }, []);
+   token && getMessages();
+  }, [token]);
 
   if (loading) {
     return <Loading />;
   } else if (error) {
     return (
-      <h2 className="text-xl my-5 text-red-500 ">
-        Aranan Kitaplar Yüklenemedi
+      <h2 className="text-xl m-5 text-red-500 ">
+       Mesajlar Yüklenemedi.
       </h2>
     );
   } else {

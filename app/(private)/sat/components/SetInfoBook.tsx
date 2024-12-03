@@ -62,9 +62,10 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
           <Form>
             <div className="my-5 flex flex-wrap gap-5">
               <div className="my-4">
-                <label htmlFor="name">Kitabın Adı</label> <br />
-                <div className="border max-w-[350px] px-2 rounded-lg">
+                <label className={arrange ?'text-black':''} htmlFor="name">Kitabın Adı</label> <br />
+                <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                   <Field
+                  className='text-black'
                     type="text"
                     name="name"
                     onChange={handleChange}
@@ -79,9 +80,10 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
               </div>
 
               <div className="my-4">
-                <label htmlFor="author">Yazar Adı</label> <br />
-                <div className="border max-w-[350px] px-2 rounded-lg">
+                <label className={arrange ?'text-black':''} htmlFor="author">Yazar Adı</label> <br />
+                <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                   <Field
+                  className='text-black'
                     type="text"
                     name="author"
                     onChange={handleChange}
@@ -96,9 +98,10 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
               </div>
 
               <div className="my-4">
-                <label htmlFor="bookStore">Yayınevi Adı</label> <br />
-                <div className="border max-w-[350px] px-2 rounded-lg">
+                <label className={arrange ?'text-black':''} htmlFor="bookStore">Yayınevi Adı</label> <br />
+                <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                   <Field
+                  className='text-black'
                     type="text"
                     name="bookStore"
                     onChange={handleChange}
@@ -112,9 +115,10 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
                 )}
               </div>
               <div className="my-4">
-                <label htmlFor="price">Fiyat TL*</label> <br />
-                <div className="border max-w-[350px] px-2 rounded-lg">
+                <label className={arrange ?'text-black':''} htmlFor="price">Fiyat TL*</label> <br />
+                <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                   <Field
+                  className='text-black'
                     type="number"
                     name="price"
                     onChange={handleChange}
@@ -129,9 +133,10 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
               </div>
 
               <div className="my-4">
-                <label htmlFor="publishmentYear">Basım Yılı</label> <br />
-                <div className="border max-w-[350px] px-2 rounded-lg">
+                <label className={arrange ?'text-black':''} htmlFor="publishmentYear">Basım Yılı</label> <br />
+                <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                   <Field
+                  className='text-black'
                     type="number"
                     name="publishmentYear"
                     onChange={handleChange}
@@ -148,10 +153,10 @@ const SetInfoBook: FC<SetInfoBookProps> = ({ arrange, onClose, book }) => {
               </div>
 
               <div className="my-4">
-                <label htmlFor="description">Açıklama</label> <br />
-                <div className="border max-w-[350px] px-2 rounded-lg">
+                <label className={arrange ?'text-black':''} htmlFor="description">Açıklama</label> <br />
+                <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                   <Field
-                    className="resize-none h-[100px]"
+                    className="resize-none text-black  h-[100px]"
                     as="textarea"
                     name="description"
                     onChange={handleChange}

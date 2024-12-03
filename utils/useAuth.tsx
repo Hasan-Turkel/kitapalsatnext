@@ -67,7 +67,7 @@ const useAuth = () => {
       toast.success("Başarıyla kayıt olundu.");
       router.push("/");
     } catch (error:any) {
-      console.log(error?.response?.data?.message?.includes('duplicate') ? 'Email ile daha önce kayıt olunmuş.' : 'Bir hata oluştu.');
+      
       toast.error(error?.response?.data?.message?.includes('duplicate') ? 'Email ile daha önce kayıt olunmuş.' : 'Bir hata oluştu.');
     }
   };
@@ -78,9 +78,7 @@ const useAuth = () => {
     login,
     register,
     logout,
-    // forgotPassword,
-    // updatePersonalInfo,
-    // renewPassword,
+    
   };
 };
 

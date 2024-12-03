@@ -18,8 +18,8 @@ const ProfileCard = () => {
     return <Loading />;
   } else if (error) {
     return (
-      <h2 className="text-xl my-5 text-red-500 ">
-        Aranan Kitaplar Yüklenemedi
+      <h2 className="text-xl m-5 text-red-500 ">
+        Profiliniz Yüklenemedi.
       </h2>
     );
   } else {

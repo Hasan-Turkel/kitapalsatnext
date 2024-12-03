@@ -42,7 +42,7 @@ const useMessages = () => {
       }
       toast.success("Mesaj gönderildi..");
     } catch (error) {
-      console.log(error);
+    
       toast.error("Mesaj gönderilemedi.");
     }
   };
@@ -53,8 +53,9 @@ const useMessages = () => {
       values?.date == "-1" && toast.success("Mesaj silindi.");
       values?.date == "-1" && router.push("/");
     } catch (error) {
-      console.log(error);
-      toast.error("Mesaj gönderilemedi.");
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
   const getMessages = async () => {
@@ -64,9 +65,10 @@ const useMessages = () => {
         setData(data?.data);
       }
     } catch (error) {
-      setError(true)
-      toast.error("Mesaj gönderilemedi.");
-    } finally {setLoading(false)}
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
   const getMessage = async (id: string) => {
     try {
@@ -76,8 +78,10 @@ const useMessages = () => {
         setMessage(data?.data);
       }
     } catch (error) {
-      setError(true)
-    } finally {setLoading(false)}
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
   const isThereMessage = async (id: string) => {
     try {
@@ -89,8 +93,9 @@ const useMessages = () => {
         }
       }
     } catch (error) {
-      // console.log(error);
-      toast.error("Mesaj gönderilemedi.");
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
   const isNewMessage = async () => {
@@ -101,8 +106,8 @@ const useMessages = () => {
         setNewMessage(data?.data);
       }
     } catch (error) {
-      // console.log(error);
-      toast.error("Mesaj gönderilemedi.");
+    } finally {
+      setLoading(false);
     }
   };
 

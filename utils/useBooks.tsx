@@ -119,8 +119,8 @@ const useBooks = () => {
         router.push("/ilanlarim");
       }, 2000);
     } catch (error) {
-      console.log(error);
-      toast.error("Hata");
+     
+      toast.error("Kitap silinemedi.");
     }
   };
   const toogleActivateBook = async (id: any, isActive: boolean) => {
@@ -137,8 +137,8 @@ const useBooks = () => {
         router.push("/ilanlarim");
       }, 2000);
     } catch (error) {
-      console.log(error);
-      toast.error("Hata");
+   
+      toast.error(`Kitap  ${isActive ? "askıya alınamadı." : "aktif edilemedi."}`);
     }
   };
 
@@ -172,8 +172,8 @@ const useBooks = () => {
       router.push("/ilanlarim");
     } catch (error) {
       // Hata durumunda bildirim
-      console.error(error);
-      toast.error("Bir hata oluştu.");
+      
+      toast.error("Kitap yayınlanamadı");
     }
   };
   const arrangeBook = async (
@@ -207,8 +207,8 @@ const useBooks = () => {
       router.push("/ilanlarim");
     } catch (error) {
       // Hata durumunda bildirim
-      console.error(error);
-      toast.error("Bir hata oluştu.");
+     
+      toast.error("Kitap düzenlenemedi.");
     }
   };
 

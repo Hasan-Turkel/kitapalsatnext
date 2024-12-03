@@ -39,7 +39,7 @@ const Page = () => {
   return (
     <section className="flex justify-center items-center h-[90svh] bg-gray-100">
       <div className="flex flex-col items-center justify-center w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h4 className="text-xl font-semibold mb-4">Giriş Yap</h4>
+        <h4 className="text-xl font-semibold mb-4 text-black">Giriş Yap</h4>
 
         <Formik
           initialValues={{ email: "", password: "" }}
@@ -53,13 +53,14 @@ const Page = () => {
           {({ handleSubmit, isSubmitting, touched, errors }) => (
             <Form onSubmit={handleSubmit} className="w-full">
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium">
+                <label htmlFor="email" className="block text-sm font-medium text-black">
                   E-Posta
                 </label>
                 <Field
+
                   type="email"
                   name="email"
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="E-posta adresinizi girin"
                   required
                 />
@@ -69,14 +70,14 @@ const Page = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium">
+                <label htmlFor="password" className="block text-sm font-medium text-black">
                   Şifre
                 </label>
                 <div className="relative">
                   <Field
                     type={passwordType}
                     name="password"
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full text-black p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Şifrenizi girin"
                     required
                   />

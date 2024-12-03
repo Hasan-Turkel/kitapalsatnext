@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 
 interface PaginationProps {
   count: number;
-  getBooks: (page: number, params:string) => void;
-  params:string
+  getBooks: (page: number, params: string) => void;
+  params: string;
 }
 
 const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const next = Math.ceil(count / 10) > page;
-  const previous = Math.ceil(count / 10) < page ;
+  const previous = Math.ceil(count / 10) < page;
 
   const handlePage = (num: number) => {
     router.push(`/?page=${num}`);

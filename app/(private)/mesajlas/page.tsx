@@ -12,6 +12,7 @@ import { Form, Formik, Field } from "formik";
 import useMessages from "@/utils/useMessages";
 import useUser from "@/utils/useUser";
 import Loading from "@/app/Loading";
+import {formatDateToTurkish} from '@/utils/funcs'
 
 const page = () => {
   const messageBoxRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ const page = () => {
         hasBeenRedOrDelete({ date: new Date() }, messageId);
       }
     }
-  }, [messageId]);
+  }, [messageId, token]);
   useEffect(() => {
     if (messageBoxRef.current) {
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
@@ -49,12 +50,12 @@ const page = () => {
 
   const newMessage = useAtomValue(newMessageAtom);
 
-  if (loading) {
+  if (token && loading) {
     return <Loading />;
-  } else if (error) {
+  } else if (!token || error) {
     return (
-      <h2 className="text-xl my-5 text-red-500 ">
-        Mesajlaşma Yüklenemedi
+      <h2 className="text-xl m-5 text-red-500 ">
+        Mesajlaşma Yüklenemedi.
       </h2>
     );
   } else {
@@ -77,8 +78,8 @@ const page = () => {
                     : "bg-gray-100")
                 }
               >
-                <p>{message?.message}</p>
-                <p className="text-end text-xs">{message?.date}</p>
+                <p className=" text-black ">{message?.message}</p>
+                <p className="text-end text-black text-xs">{formatDateToTurkish(message?.date)}</p>
               </div>
             ))}
           </section>
@@ -111,13 +112,13 @@ const page = () => {
               }}
             >
               {({ values, handleChange, handleBlur }) => (
-                <Form className="border border-black ps-2 rounded-lg flex">
+                <Form className="border border-black bg-white ps-2 rounded-lg flex">
                   {/* Mesaj input alanı */}
                   <Field
                     required
                     type="text"
                     name="message"
-                    className="w-full"
+                    className="w-full text-black"
                     placeholder="Mesajınız..."
                     value={values.message} // Formik'in değerini kullanıyoruz
                     onChange={handleChange} // Değer değiştirildiğinde Formik'e bildiriyoruz
@@ -125,7 +126,7 @@ const page = () => {
                   />
   
                   {/* Gönder butonu */}
-                  <button type="submit" className="border rounded-lg p-2">
+                  <button type="submit" className="border border-black text-black rounded-lg p-2">
                     Gönder
                   </button>
                 </Form>

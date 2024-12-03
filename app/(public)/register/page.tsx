@@ -74,7 +74,7 @@ const page = () => {
     <section className="flex justify-center items-center bg-light p-4">
       <div className="border p-6 rounded bg-white w-full max-w-md shadow-md">
         <div className="text-center mb-4">
-          <p className="text-2xl font-semibold">Kayıt Ol</p>
+          <p className="text-2xl font-semibold text-black">Kayıt Ol</p>
         </div>
 
         <Formik
@@ -106,13 +106,13 @@ const page = () => {
                 <div className="w-full my-2">
                   <label
                     htmlFor="fullname"
-                    className="block text-sm font-medium mb-2"
+                    className="block text-sm font-medium mb-2 text-black"
                   >
                     Ad Soyad
                   </label>
                   <div className="border rounded-lg p-1">
                     <Field
-                      className="w-full p-3"
+                      className="w-full p-3 text-black"
                       type="text"
                       name="fullname"
                       required
@@ -127,12 +127,12 @@ const page = () => {
               </div>
 
               {/* Email Field */}
-              <label htmlFor="email" className="block text-sm font-medium my-2">
+              <label htmlFor="email" className="block text-sm font-medium my-2 text-black">
                 E-Posta
               </label>
               <div className="border rounded-lg p-1">
                 <Field
-                  className="w-full p-3"
+                  className="w-full p-3 text-black"
                   type="email"
                   name="email"
                   required
@@ -145,13 +145,13 @@ const page = () => {
               {/* Password Field */}
               <label
                 htmlFor="password"
-                className="block text-sm font-medium my-2"
+                className="block text-sm font-medium my-2 text-black"
               >
                 Şifre
               </label>
               <div className="relative border rounded-lg p-2">
                 <Field
-                  className="w-full p-3"
+                  className="w-full p-3 text-black"
                   type={passwordType}
                   name="password"
                   required
@@ -179,7 +179,7 @@ const page = () => {
 
               {/* City Field */}
               <div className="my-4">
-                <label htmlFor="city">İl</label> <br />
+                <label className="text-black" htmlFor="city">İl</label> <br />
                 <div className="border px-2 rounded-lg">
                   <Select
                     required={true}
@@ -206,6 +206,7 @@ const page = () => {
                         border: "none",
                         boxShadow: "none",
                         cursor: "pointer",
+                        color:'black'
                       }),
                     }}
                     className="selectbox"
@@ -224,7 +225,7 @@ const page = () => {
 
               {/* District Field */}
               <div className="my-4">
-                <label htmlFor="district">İlçe</label> <br />
+                <label className="text-black" htmlFor="district">İlçe</label> <br />
                 <div className="border px-2 rounded-lg">
                   <Select
                     required={true}
@@ -251,6 +252,7 @@ const page = () => {
                         border: "none",
                         boxShadow: "none",
                         cursor: "pointer",
+                        color:'black'
                       }),
                     }}
                     className="selectbox"
@@ -283,7 +285,6 @@ const page = () => {
 
         <div className="text-center mt-4">
           <p className="text-sm">
-            Zaten üye misin?{" "}
             <Link href="/login" className="text-blue-500 cursor-pointer">
               Giriş yap
             </Link>
