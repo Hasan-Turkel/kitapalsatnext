@@ -3,18 +3,21 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import Storage from "@/utils/storage";
+import { useAtomValue } from "jotai";
+import { tokenAtom } from "@/utils/atoms";
 
 export default function PrivateLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const token = Storage?.getItem("token");
+  
+  const token = useAtomValue(tokenAtom)
   const router = useRouter();
 
   useEffect(() => {
-    if (!token) {
+    console.log(token)
+    if (token==null) {
       console.log(token);
       toast.warning("Bu işlem için öncelikle giriş yapmalısınız.");
       router.push("/login");
