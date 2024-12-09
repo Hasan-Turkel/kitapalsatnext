@@ -12,7 +12,8 @@ import { Form, Formik, Field } from "formik";
 import useMessages from "@/utils/useMessages";
 import useUser from "@/utils/useUser";
 import Loading from "@/app/Loading";
-import {formatDateToTurkish} from '@/utils/funcs'
+import { formatDateToTurkish } from "@/utils/funcs";
+import Footer from "@/components/Footer";
 
 const page = () => {
   const messageBoxRef = useRef<HTMLDivElement>(null);
@@ -26,7 +27,8 @@ const page = () => {
     isThereMessage,
     updateMessage,
     hasBeenRedOrDelete,
-    loading, error
+    loading,
+    error,
   } = useMessages();
   const { user, getUser } = useUser();
 
@@ -54,15 +56,13 @@ const page = () => {
     return <Loading />;
   } else if (!token || error) {
     return (
-      <h2 className="text-xl m-5 text-red-500 ">
-        Mesajlaşma Yüklenemedi.
-      </h2>
+      <h2 className="text-xl m-5 text-red-500 ">Mesajlaşma Yüklenemedi.</h2>
     );
   } else {
     return (
-      <main className="p-3 ">
+      <main >
         <section
-          className="max-w-[840px] m-auto my-10 relative "
+          className="max-w-[840px] m-auto my-10 relative p-3"
           style={{ height: "70svh" }}
         >
           <h2 className="text-center">{book?.bookName}</h2>
@@ -79,11 +79,13 @@ const page = () => {
                 }
               >
                 <p className=" text-black ">{message?.message}</p>
-                <p className="text-end text-black text-xs">{formatDateToTurkish(message?.date)}</p>
+                <p className="text-end text-black text-xs">
+                  {formatDateToTurkish(message?.date)}
+                </p>
               </div>
             ))}
           </section>
-  
+
           <div className="my-4 absolute bottom-0 w-full">
             <Formik
               initialValues={{ message: "" }} // Formun başlangıç değerleri
@@ -124,9 +126,12 @@ const page = () => {
                     onChange={handleChange} // Değer değiştirildiğinde Formik'e bildiriyoruz
                     onBlur={handleBlur} // Input'un dışına çıkıldığında yapılan işlem
                   />
-  
+
                   {/* Gönder butonu */}
-                  <button type="submit" className="border border-black text-black rounded-lg p-2">
+                  <button
+                    type="submit"
+                    className="border border-black text-black rounded-lg p-2"
+                  >
                     Gönder
                   </button>
                 </Form>
@@ -134,11 +139,12 @@ const page = () => {
             </Formik>
           </div>
         </section>
+        <div>
+          <Footer fixed="" />
+        </div>
       </main>
     );
-
   }
-
 };
 
 export default page;

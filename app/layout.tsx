@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   description: "İkinci el kitap alım satım platformu.",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,9 +21,8 @@ export default function RootLayout({
       <body>
         {/* React Query Provider'ı ile sarmalayın */}
         <ToastContainer />
-          <Navbar />
-          {children}
-       
+        <Navbar />
+        {children}
       </body>
     </html>
   );

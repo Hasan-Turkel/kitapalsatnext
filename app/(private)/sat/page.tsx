@@ -1,6 +1,7 @@
 "use client";
 
 import SetInfoBook from "./components/SetInfoBook";
+import Footer from "@/components/Footer";
 
 
 const page = () => {
@@ -41,9 +42,16 @@ const page = () => {
   }
   const onClose = () => null;
   return (
+    <>
+    
     <main className="p-3">
       <SetInfoBook arrange={false} onClose={onClose} book={book}/>
     </main>
+    <div >
+
+<Footer fixed=""/>
+</div>
+    </>
   );
 };
 
