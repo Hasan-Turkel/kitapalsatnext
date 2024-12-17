@@ -1,8 +1,8 @@
 "use client";
 import { useState, FC } from "react";
 import { FaFastForward, FaFastBackward } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 interface PaginationProps {
   count: number;
   getBooks: (page: number, params: string) => void;
@@ -10,53 +10,80 @@ interface PaginationProps {
 }
 
 const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
-  const router = useRouter();
   const [page, setPage] = useState(1);
-  const next = Math.ceil(count / 10) > page;
-  const previous = Math.ceil(count / 10) < page;
+  const totalPages = Math.ceil(count / 5);
+  const next = totalPages > page;
+  const previous = count > 0 && page > 1;
+
+  const searchParams = useSearchParams(); // mevcut query parametrelerini al
+  const newParams = new URLSearchParams(searchParams); // URLSearchParams nesnesine dönüştür
+
+  newParams.delete("page");
+
+  const modifiedParams = newParams.toString();
 
   const handlePage = (num: number) => {
-    router.push(`/?page=${num}`);
     setPage(num);
-    getBooks(num, params);
+    !params && getBooks(num, modifiedParams);
   };
+
   return (
     <div className="flex justify-center">
       {previous && (
         <div className="flex gap-2 p-2 items-center ">
-          <p
+          <Link
+            href={modifiedParams ? `?page=1&${modifiedParams}` : `?page=1`}
+            scroll={false}
             role="button"
             className="text-lg bg-orange-500 p-2 rounded-full cursor-pointer w-[30px] h-[30px] flex items-center"
             onClick={() => handlePage(1)}
           >
             <FaFastBackward />
-          </p>
+          </Link>
 
-          <p
+          <Link
+            href={
+              modifiedParams
+                ? `?page=${page - 1}&${modifiedParams}`
+                : `?page=${page - 1}`
+            }
+            scroll={false}
             role="button"
             className="text-lg bg-orange-500 p-2 rounded-full cursor-pointer "
             onClick={() => handlePage(page - 1)}
           >
             Önceki Sayfa
-          </p>
+          </Link>
         </div>
       )}
       {next && (
         <div className=" flex gap-2 p-2 items-center ">
-          <p
+          <Link
+            href={
+              modifiedParams
+                ? `?page=${page + 1}&${modifiedParams}`
+                : `?page=${page + 1}`
+            }
+            scroll={false}
             role="button"
             className="text-lg bg-blue-500 p-2 rounded-full cursor-pointer"
             onClick={() => handlePage(page + 1)}
           >
             Sonraki Sayfa
-          </p>
-          <p
+          </Link>
+          <Link
+            href={
+              modifiedParams
+                ? `?page=${Math.ceil(count / 5)}&${modifiedParams}`
+                : `?page=${Math.ceil(count / 5)}`
+            }
+            scroll={false}
             role="button"
             className="text-lg bg-blue-500 p-2 rounded-full cursor-pointer w-[30px] h-[30px] flex items-center"
-            onClick={() => handlePage(Math.ceil(count / 10))}
+            onClick={() => handlePage(Math.ceil(count / 5))}
           >
             <FaFastForward />
-          </p>
+          </Link>
         </div>
       )}
     </div>

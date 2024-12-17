@@ -32,6 +32,8 @@ const page = () => {
   } = useMessages();
   const { user, getUser } = useUser();
 
+const receiver = message?.participants?.filter((person:any)=>user?._id!=person?.user_id._id)[0]?.user_id?.fullname
+
   useEffect(() => {
     if (token) {
       getUser();
@@ -50,8 +52,6 @@ const page = () => {
     }
   }, [message]);
 
-  const newMessage = useAtomValue(newMessageAtom);
-
   if (token && loading) {
     return <Loading />;
   } else if (!token || error) {
@@ -66,7 +66,7 @@ const page = () => {
           style={{ height: "70svh" }}
         >
           <h2 className="text-center">{book?.bookName}</h2>
-          <p>{book?.bookSeller}</p>
+          <p>{receiver || book?.bookSeller}</p>
           <section ref={messageBoxRef} className="max-h-[50svh] overflow-auto">
             {message?.messages?.map((message: any, i: number) => (
               <div

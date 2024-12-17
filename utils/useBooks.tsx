@@ -69,36 +69,47 @@ const useBooks = () => {
         setData(data?.data);
       }
     } catch (error) {
-      setError(true)
-    }finally {setLoading(false)} 
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
-  const getBooks = async (page:number, queryParams='') => {
+  const getBooks = async (page: number, queryParams = "") => {
     try {
-      const data = await axiosInstance.get(`books/?page=${page}${queryParams && '&'+queryParams}`);
+
       
+      const data = await axiosInstance.get(queryParams.includes('page') ? 
+      `books/?${queryParams}` :
+        `books/?page=${page}${queryParams && "&" + queryParams}`
+      );
+
       if ("data" in data) {
         setData(data?.data);
       }
-      if ("count" in data && typeof data?.count == 'number') {
+      if ("count" in data && typeof data?.count == "number") {
         setCount(data?.count);
       }
     } catch (error) {
-    setError(true)
-    }finally {setLoading(false)} 
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
-  const getLastBooks = async (page:number) => {
+  const getLastBooks = async (page: number) => {
     try {
       const data = await axiosInstance.get(`books/?page=${page}`);
-    
+
       if ("data" in data) {
         setLast(data?.data);
       }
-      if ("count" in data && typeof data?.count == 'number') {
+      if ("count" in data && typeof data?.count == "number") {
         setLastCount(data?.count);
       }
     } catch (error) {
-     setError(true)
-    } finally {setLoading(false)} 
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
   const getBook = async (id: any) => {
     try {
@@ -107,8 +118,10 @@ const useBooks = () => {
         setBook(data?.data);
       }
     } catch (error) {
-      setError(true)
-    } finally {setLoading(false)} 
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
   const deleteBook = async (id: any) => {
     try {
@@ -119,7 +132,6 @@ const useBooks = () => {
         router.push("/ilanlarim");
       }, 2000);
     } catch (error) {
-     
       toast.error("Kitap silinemedi.");
     }
   };
@@ -137,8 +149,9 @@ const useBooks = () => {
         router.push("/ilanlarim");
       }, 2000);
     } catch (error) {
-   
-      toast.error(`Kitap  ${isActive ? "askıya alınamadı." : "aktif edilemedi."}`);
+      toast.error(
+        `Kitap  ${isActive ? "askıya alınamadı." : "aktif edilemedi."}`
+      );
     }
   };
 
@@ -146,33 +159,46 @@ const useBooks = () => {
     values: FormValues,
     img: File | null
   ): Promise<void> => {
-    // Token'ı Jotai'dan alıyoruz
-
-    // FormData nesnesi oluşturuluyor
-
-    const formData = new FormData();
-    if (img) formData.append("file", img);
-    formData.append("name", values.name);
-    formData.append("author", values.author);
-    formData.append("bookStore", values.bookStore);
-    formData.append("publishmentYear", values.publishmentYear);
-    formData.append("description", values.description);
-    formData.append("price", values.price);
-
     try {
-      // POST isteği
-      await axios.post(`http://127.0.0.1:8000/books`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${token}`, // Authorization header'ı ekliyoruz
-        },
-      });
+      let imgUrl = "";
+      if (img) {
+        const cloudinaryName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME || "";
+        const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET || "";
+
+        const form = new FormData();
+        form.append("file", img); // Yüklemek istediğiniz dosya
+        form.append("upload_preset", uploadPreset); // Cloudinary'den aldığınız upload preset
+        form.append("cloud_name", cloudinaryName); // Cloudinary cloud name
+
+        try {
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudinaryName}/image/upload`,
+            {
+              method: "POST",
+              body: form,
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.secure_url) {
+            imgUrl = data.secure_url; // Yüklenen görselin URL'sini alır
+          } else {
+            toast.error("Görsel Yüklenemedi.");
+          }
+        } catch (error) {
+          toast.error("Görsel Yüklenemedi.");
+        }
+      }
+
+      let formValues = imgUrl ? { ...values, photo: imgUrl } : values;
+      await axiosInstance.post(`books`, formValues);
       // Başarı durumunda bildirim ve yönlendirme
       toast.success("Kitap başarıyla yayınlandı.");
       router.push("/ilanlarim");
     } catch (error) {
       // Hata durumunda bildirim
-      
+
       toast.error("Kitap yayınlanamadı");
     }
   };
@@ -181,33 +207,46 @@ const useBooks = () => {
     values: FormValues,
     img: File | null
   ): Promise<void> => {
-    // Token'ı Jotai'dan alıyoruz
-
-    // FormData nesnesi oluşturuluyor
-
-    const formData = new FormData();
-    if (img) formData.append("file", img);
-    formData.append("name", values.name);
-    formData.append("author", values.author);
-    formData.append("bookStore", values.bookStore);
-    formData.append("publishmentYear", values.publishmentYear);
-    formData.append("description", values.description);
-    formData.append("price", values.price);
-
     try {
-      // POST isteği
-      await axios.put(`http://127.0.0.1:8000/books/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${token}`, // Authorization header'ı ekliyoruz
-        },
-      });
+      let imgUrl = "";
+      if (img) {
+        const cloudinaryName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME || "";
+        const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET || "";
+
+        const form = new FormData();
+        form.append("file", img); // Yüklemek istediğiniz dosya
+        form.append("upload_preset", uploadPreset); // Cloudinary'den aldığınız upload preset
+        form.append("cloud_name", cloudinaryName); // Cloudinary cloud name
+
+        try {
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudinaryName}/image/upload`,
+            {
+              method: "POST",
+              body: form,
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.secure_url) {
+            imgUrl = data.secure_url; // Yüklenen görselin URL'sini alır
+          } else {
+            toast.error("Görsel Yüklenemedi.");
+          }
+        } catch (error) {
+          toast.error("Görsel Yüklenemedi.");
+        }
+      }
+
+      let formValues = imgUrl ? { ...values, photo: imgUrl } : values;
+      await axiosInstance.put(`books/${id}`, formValues, {});
       // Başarı durumunda bildirim ve yönlendirme
       toast.success("Kitap başarıyla düzenlendi.");
       router.push("/ilanlarim");
     } catch (error) {
       // Hata durumunda bildirim
-     
+
       toast.error("Kitap düzenlenemedi.");
     }
   };
@@ -227,7 +266,7 @@ const useBooks = () => {
     lastCount,
     getLastBooks,
     loading,
-    error
+    error,
   };
 };
 

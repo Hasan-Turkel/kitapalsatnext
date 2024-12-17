@@ -18,11 +18,13 @@ const FoundBook = () => {
 
   const { getBooks, data: books, count, loading, error } = useBooks();
 
+  console.log(params)
+
   useEffect(() => {
-    params && getBooks(1, params);
+    params  && !(params.length == 6 && params.startsWith('page=')) && getBooks(1, params);
   }, [params]);
 
-  if (params && loading) {
+  if (params && !(params.length == 6 && params.startsWith('page='))  && loading) {
     return <Loading />;
   } else if (error) {
     return (
@@ -33,7 +35,7 @@ const FoundBook = () => {
   } else {
     return (
       <>
-        {params && (
+        {params && !(params.length == 6 && params.startsWith('page=')) && (
           <section className="max-w-[840px] m-auto my-10">
             <h2 className="text-3xl my-5">
               Aradığınız kriterlere uygun{" "}
@@ -51,7 +53,7 @@ const FoundBook = () => {
           </section>
         )}
 
-        {count == 0 && <LastAddedBook />}
+        {(count == 0 || !params || params.length == 6 && params.startsWith('page=') ) && <LastAddedBook />}
       </>
     );
   }

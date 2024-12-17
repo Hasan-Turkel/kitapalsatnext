@@ -70,7 +70,7 @@ export interface IBook {
 
 // Participant tipini tanımlıyoruz
 export interface IParticipant {
-  user_id: string;  // User referansı
+  user_id: any;  // User referansı
   lastSeen: date | string;
 }
 
@@ -92,4 +92,5 @@ export interface MessageGetType {
   participants: IParticipant[];
   messages: IMessage[];
  _id:string
+ user_id:User
 }

@@ -57,6 +57,7 @@ const FindBook = () => {
       "publicationYear",
       "city",
       "district",
+      'page'
     ];
 
     keysToRemove.forEach((key) => params.delete(key));
@@ -269,7 +270,8 @@ const FindBook = () => {
                   type="button"
                   className="text-white rounded-lg bg-yellow-500 p-3 h-[40px] w-[350px] hover:bg-yellow-600 transition-colors duration-500 ease-in-out"
                   onClick={() => {
-                    window.location.href = '/al'
+                   resetForm();
+                   handleSave({});
                   }
                   
                   }

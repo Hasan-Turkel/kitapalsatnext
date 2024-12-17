@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: false,
   productionBrowserSourceMaps: false, 
+  experimental: {
+    scrollRestoration: false, // Sayfa değişiminde scroll pozisyonunu korur
+  },
 };
 
 export default nextConfig;

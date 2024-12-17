@@ -55,6 +55,8 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
     setMessageId(message?._id);
   };
 
+  const receiver = message?.participants?.filter((person:any)=>user?._id!=person?.user_id._id)[0]?.user_id?.fullname
+
   return (
     <>
       <div
@@ -74,16 +76,16 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
         {message?.book_id?.isActive == false || message?.book_id?.isDeleted ? (
           <div>
             <div className="col-span-2">
+              <p>{receiver} </p>
               <p>{message?.book_id?.name} </p>
-              <p>{message?.book_id?.user_id?.fullname} </p>
               <p>{formatDateToTurkish(message?.messages.slice(-1)[0].date)}</p>
             </div>
           </div>
         ) : (
           <Link href={"/mesajlas"} onClick={handleSetBook}>
             <div className="col-span-2">
+              <p>{receiver} </p>
               <p>{message?.book_id?.name} </p>
-              <p>{message?.book_id?.user_id?.fullname} </p>
               <p>{formatDateToTurkish(message?.messages.slice(-1)[0].date)}</p>
             </div>
           </Link>
