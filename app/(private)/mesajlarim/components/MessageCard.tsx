@@ -36,11 +36,11 @@ const MessageCard: FC<MessageCardProps> = ({ message }) => {
 
   const filtered =
     message.participants?.filter(
-      (participant) => participant?.user_id == user._id
+      (participant) => participant?.user_id._id == user._id
     )[0]?.lastSeen == "0" ||
     new Date(
       message.participants?.filter(
-        (participant) => participant?.user_id == user._id
+        (participant) => participant?.user_id._id == user._id
       )[0]?.lastSeen
     ).getTime() <
       new Date(message.messages[message.messages.length - 1].date).getTime();
