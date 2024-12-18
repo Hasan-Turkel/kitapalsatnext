@@ -8,6 +8,7 @@ import { Book } from "@/types";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/Pagination";
 import Loading from "@/app/Loading";
+import dynamic from "next/dynamic";
 
 const FoundBook = () => {
  
@@ -57,4 +58,6 @@ const FoundBook = () => {
   }
 };
 
-export default FoundBook;
+// export default FoundBook;
+
+export default dynamic(() => Promise.resolve(FoundBook), { ssr: false });

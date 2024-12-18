@@ -3,6 +3,7 @@ import { useState, FC } from "react";
 import { FaFastForward, FaFastBackward } from "react-icons/fa";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 interface PaginationProps {
   count: number;
   getBooks: (page: number, params: string) => void;
@@ -90,4 +91,6 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
   );
 };
 
-export default Pagination;
+// export default Pagination;
+
+export default dynamic(() => Promise.resolve(Pagination), { ssr: false });
