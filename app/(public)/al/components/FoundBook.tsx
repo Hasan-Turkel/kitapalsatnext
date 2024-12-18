@@ -17,7 +17,6 @@ const FoundBook = () => {
 
   const { getBooks, data: books, count, loading, error } = useBooks();
 
-  console.log(params)
 
   useEffect(() => {
     params  && !(params.length == 6 && params.startsWith('page=')) && getBooks(1, params);

@@ -16,9 +16,9 @@ export default function PrivateLayout({
   const router = useRouter();
 
   useEffect(() => {
-    console.log(token)
+  
     if (token==null) {
-      console.log(token);
+    
       toast.warning("Bu işlem için öncelikle giriş yapmalısınız.");
       router.push("/login");
     }

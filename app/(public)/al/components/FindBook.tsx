@@ -78,6 +78,7 @@ const FindBook = () => {
       params.append("publicationYear", values?.publicationYear);
     if (values?.city) params.append("city", values?.city?.value);
     if (values?.district) params.append("district", values?.district?.value);
+    
 
     // URL'yi yönlendirme
     router.push(`/al?${params.toString()}`);
@@ -108,8 +109,8 @@ const FindBook = () => {
             publisher: "",
             publicationYear: "",
           }}
-          onSubmit={(values, action) => {
-            console.log(values);
+          onSubmit={(values) => {
+           
             handleSave({ ...values, city, district });
             setOpen(false);
           }}

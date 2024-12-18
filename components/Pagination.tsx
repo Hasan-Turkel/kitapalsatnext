@@ -1,5 +1,5 @@
 "use client";
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import { FaFastForward, FaFastBackward } from "react-icons/fa";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -21,6 +21,7 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
 
   newParams.delete("page");
 
+ 
   const modifiedParams = newParams.toString();
 
   const handlePage = (num: number) => {
@@ -28,6 +29,16 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
     !params && getBooks(num, modifiedParams);
   };
 
+  useEffect(() => {
+
+
+    !newParams.get('page')? setPage(1) :  setPage(Number( newParams.get('page')))
+
+   
+  }, [modifiedParams])
+
+ 
+  
   return (
     <div className="flex justify-center">
       {previous && (
