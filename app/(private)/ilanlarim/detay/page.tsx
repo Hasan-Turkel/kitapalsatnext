@@ -9,12 +9,16 @@ import useBooks from "@/utils/useBooks";
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import Loading from "@/app/Loading";
+import { useAtomValue } from "jotai"; // Jotai atomunu okuma
+import { bookIdAtom } from "@/utils/atoms";
 const page = () => {
   const [isModalOpen, setIsModalOpen] = useState({
     delete: false,
     suspend: false,
     arrange: false,
   });
+
+  const ilanId = useAtomValue(bookIdAtom); // Access the specific param after unwrapping
 
   const openDeleteModal = () => {
     setIsModalOpen({ ...isModalOpen, delete: true });
@@ -38,8 +42,6 @@ const page = () => {
 
   const { book, getBook, deleteBook, toogleActivateBook, loading, error } = useBooks();
 
-  const params = useParams(); // Access params using the useParams hook
-  const ilanId = params?.ilanId; // Access the specific param after unwrapping
 
   useEffect(() => {
     getBook(ilanId);

@@ -5,9 +5,8 @@ import Link from "next/link";
 import useBooks from "@/utils/useBooks";
 import useUser from "@/utils/useUser";
 import { useEffect } from "react";
-import { useParams } from "next/navigation";
 import { useAtomValue, useSetAtom } from "jotai"; // Jotai atomunu okuma
-import { tokenAtom, bookAtom, messageIdAtom } from "@/utils/atoms";
+import { tokenAtom, bookAtom, messageIdAtom, bookIdAtom } from "@/utils/atoms";
 import Loading from "@/app/Loading";
 
 const page = () => {
@@ -17,8 +16,8 @@ const page = () => {
   const setBook = useSetAtom(bookAtom);
   const setMessageId = useSetAtom(messageIdAtom);
 
-  const params = useParams(); // Access params using the useParams hook
-  const bookId = params?.bookId; // Access the specific param after unwrapping
+ 
+  const bookId = useAtomValue(bookIdAtom); // Access the specific param after unwrapping
 
   useEffect(() => {
     getBook(bookId);

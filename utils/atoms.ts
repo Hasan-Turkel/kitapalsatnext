@@ -14,5 +14,7 @@ export const bookAtom = atom({
   bookSellerId: "",
   bookSeller: "",
 });
-export const messageIdAtom = atom('');
+export const messageIdAtom = atom("");
+export const bookIdAtom = atom("");
 export const newMessageAtom = atom(false);
+

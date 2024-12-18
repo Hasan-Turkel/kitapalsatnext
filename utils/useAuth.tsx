@@ -46,10 +46,11 @@ const useAuth = () => {
   };
 
   const logout = async () => {
+    router.push("/");
     try {
       setToken(null);
       toast.success("Başarıyla çıkış yapıldı.");
-      router.push("/");
+     
     } catch (error) {
       // console.log(error.message);
       toast.error("Çıkış yapılamadı");

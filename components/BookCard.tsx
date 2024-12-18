@@ -1,9 +1,11 @@
+'use client'
 
 import { Book } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-
+import { useSetAtom } from "jotai";
+import { bookIdAtom } from "@/utils/atoms";
 interface BookCardProps {
   ads: boolean;
   book: Book;
@@ -11,6 +13,8 @@ interface BookCardProps {
 
 const BookCard: FC<BookCardProps> = ({ ads, book }) => {
   const id = book?._id;
+
+  const setBookId = useSetAtom(bookIdAtom)
   return (
     <div
       className={
@@ -31,7 +35,8 @@ const BookCard: FC<BookCardProps> = ({ ads, book }) => {
           <div className="col-span-2">
             <Link
               className="text-sky-700"
-              href={ads ? `/ilanlarim/${id}` : `/al/${id}`}
+              href={ads ? `/ilanlarim/detay` : `/al/detay`}
+              onClick={()=>setBookId(id)}
             >
               {book?.name}
             </Link>
