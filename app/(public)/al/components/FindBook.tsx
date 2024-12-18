@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { SingleValue } from "react-select";
 import { getCities, getDistrictsByCityCode } from "turkey-neighbourhoods";
@@ -43,12 +43,19 @@ const FindBook = () => {
     }
   };
 
-  // Formik validation schema
+  const [currentUrl, setCurrentUrl] = useState<string>("");
 
-  const currentUrl = window.location.href;
-  const urlObj = new URL(currentUrl);
+  useEffect(() => {
+    // `window` nesnesine sadece istemci tarafında erişebiliriz.
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href); // Tarayıcıda geçerli URL'yi alıyoruz
+    }
+  }, []);
+
   const handleSave = (values: any) => {
-    console.log(values)
+    if (!currentUrl) return; // currentUrl henüz alınmamışsa çık
+
+    const urlObj = new URL(currentUrl);
     const params = new URLSearchParams(urlObj?.search);
     const keysToRemove = [
       "bookName",
@@ -57,28 +64,22 @@ const FindBook = () => {
       "publicationYear",
       "city",
       "district",
-      'page'
+      "page",
     ];
 
+    // Gereksiz parametreleri silme
     keysToRemove.forEach((key) => params.delete(key));
-    if (values?.bookName) {
-      params.append("bookName", values?.bookName);
-    }
-    if (values?.authorName) {
-      params.append("authorName", values?.authorName);
-    }
-    if (values?.publisher) {
-      params.append("publisher", values?.publisher);
-    }
-    if (values?.publicationYear) {
+
+    // Yeni parametreleri ekleme
+    if (values?.bookName) params.append("bookName", values?.bookName);
+    if (values?.authorName) params.append("authorName", values?.authorName);
+    if (values?.publisher) params.append("publisher", values?.publisher);
+    if (values?.publicationYear)
       params.append("publicationYear", values?.publicationYear);
-    }
-    if (values?.city) {
-      params.append("city", values?.city?.value);
-    }
-    if (values?.district) {
-      params.append("district", values?.district?.value);
-    }
+    if (values?.city) params.append("city", values?.city?.value);
+    if (values?.district) params.append("district", values?.district?.value);
+
+    // URL'yi yönlendirme
     router.push(`/al?${params.toString()}`);
   };
 
@@ -120,7 +121,7 @@ const FindBook = () => {
                   <label htmlFor="bookName">Kitabın Adı</label> <br />
                   <div className="border bg-white max-w-[350px] px-2 rounded-lg">
                     <Field
-                    className='text-black'
+                      className="text-black"
                       type="text"
                       id="bookName"
                       name="bookName"
@@ -134,7 +135,7 @@ const FindBook = () => {
                   <label htmlFor="authorName">Yazar Adı</label> <br />
                   <div className="border  bg-white max-w-[350px] px-2 rounded-lg">
                     <Field
-                    className='text-black'
+                      className="text-black"
                       type="text"
                       id="authorName"
                       name="authorName"
@@ -148,7 +149,7 @@ const FindBook = () => {
                   <label htmlFor="publisher">Yayınevi Adı</label> <br />
                   <div className="border  bg-white max-w-[350px] px-2 rounded-lg">
                     <Field
-                    className='text-black'
+                      className="text-black"
                       type="text"
                       id="publisher"
                       name="publisher"
@@ -162,7 +163,7 @@ const FindBook = () => {
                   <label htmlFor="publicationYear">Basım Yılı</label> <br />
                   <div className="border  bg-white w-[350px] px-2 rounded-lg">
                     <Field
-                    className='text-black'
+                      className="text-black"
                       type="number"
                       id="publicationYear"
                       name="publicationYear"
@@ -199,7 +200,7 @@ const FindBook = () => {
                           border: "none",
                           boxShadow: "none",
                           cursor: "pointer",
-                          color:'black'
+                          color: "black",
                         }),
                       }}
                       className="selectbox"
@@ -241,7 +242,7 @@ const FindBook = () => {
                           border: "none",
                           boxShadow: "none",
                           cursor: "pointer",
-                           color:'black'
+                          color: "black",
                         }),
                       }}
                       className="selectbox"
@@ -270,13 +271,11 @@ const FindBook = () => {
                   type="button"
                   className="text-white rounded-lg bg-yellow-500 p-3 h-[40px] w-[350px] hover:bg-yellow-600 transition-colors duration-500 ease-in-out"
                   onClick={() => {
-                   resetForm();
-                   handleSave({});
-                  }
-                  
-                  }
+                    resetForm();
+                    handleSave({});
+                  }}
                 >
-                 Filtreleri Temizle
+                  Filtreleri Temizle
                 </button>
               </div>
             </Form>

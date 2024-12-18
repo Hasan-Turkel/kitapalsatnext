@@ -10,9 +10,7 @@ import Pagination from "@/components/Pagination";
 import Loading from "@/app/Loading";
 
 const FoundBook = () => {
-  const currentUrl = window.location.href;
-  const urlObj = new URL(currentUrl);
-  // const params = urlObj?.search?.substring(1);
+ 
   const searchParams = useSearchParams();
   const params = searchParams.toString();
 
