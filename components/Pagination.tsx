@@ -44,7 +44,7 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
         <div className="flex gap-2 p-2 items-center ">
           <Link
             href={
-              modifiedParams && linkParams
+              linkParams
                 ? `?page=1&${linkParams}`
                 
                 : `?page=1`
@@ -59,7 +59,7 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
 
           <Link
             href={
-              modifiedParams && linkParams
+               linkParams
                 ? `?page=${page - 1}&${linkParams}`
                 
                 : `?page=${page - 1}`
@@ -77,7 +77,7 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
         <div className=" flex gap-2 p-2 items-center ">
           <Link
             href={
-              modifiedParams && linkParams
+               linkParams
                 ? `?page=${page + 1}&${linkParams}`
               
                 : `?page=${page + 1}`
@@ -91,7 +91,7 @@ const Pagination: FC<PaginationProps> = ({ count, getBooks, params }) => {
           </Link>
           <Link
             href={
-              modifiedParams && linkParams
+              linkParams
                 ? `?page=${Math.ceil(count / 5)}&${linkParams}`
               
                 : `?page=${Math.ceil(count / 5)}`
