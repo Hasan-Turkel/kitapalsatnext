@@ -23,7 +23,7 @@ const useBooks = () => {
   const token = useAtomValue(tokenAtom);
   const [data, setData] = useState([]);
   const [last, setLast] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [count, setCount] = useState(0);
   const [lastCount, setLastCount] = useState(0);
@@ -63,6 +63,7 @@ const useBooks = () => {
   });
 
   const getPersonalBooks = async () => {
+    setLoading(true);
     try {
       const data = await axiosInstance.get(`books/personalBooks`);
       if ("data" in data) {
@@ -75,9 +76,9 @@ const useBooks = () => {
     }
   };
   const getBooks = async (page: number, queryParams = "") => {
+    
+   setLoading(true)
     try {
-
-      
       const data = await axiosInstance.get(queryParams.includes('page') ? 
       `books/?${queryParams}` :
         `books/?page=${page}${queryParams && "&" + queryParams}`
@@ -91,11 +92,10 @@ const useBooks = () => {
       }
     } catch (error) {
       setError(true);
-    } finally {
-      setLoading(false);
-    }
+    }   finally {(setLoading(false))}
   };
   const getLastBooks = async (page: number) => {
+    setLoading(true)
     try {
       const data = await axiosInstance.get(`books/?page=${page}`);
 
@@ -107,11 +107,10 @@ const useBooks = () => {
       }
     } catch (error) {
       setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+    }  finally {(setLoading(false))}
+  }; 
   const getBook = async (id: any) => {
+    setLoading(true);
     try {
       const data = await axiosInstance.get(`books/${id}`);
       if ("data" in data) {
@@ -124,6 +123,7 @@ const useBooks = () => {
     }
   };
   const deleteBook = async (id: any) => {
+    setLoading(true);
     try {
       const data = await axiosInstance.put(`books/${id}`, { isDeleted: true });
       toast.success("Kitap başarıyla silindi.");
@@ -133,9 +133,12 @@ const useBooks = () => {
       }, 2000);
     } catch (error) {
       toast.error("Kitap silinemedi.");
+    }finally {
+      setLoading(false);
     }
   };
   const toogleActivateBook = async (id: any, isActive: boolean) => {
+    setLoading(true);
     try {
       const data = await axiosInstance.put(`books/${id}`, {
         isActive: !isActive,
@@ -152,6 +155,8 @@ const useBooks = () => {
       toast.error(
         `Kitap  ${isActive ? "askıya alınamadı." : "aktif edilemedi."}`
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -159,6 +164,7 @@ const useBooks = () => {
     values: FormValues,
     img: File | null
   ): Promise<void> => {
+    setLoading(true);
     try {
       let imgUrl = "";
       if (img) {
@@ -200,6 +206,8 @@ const useBooks = () => {
       // Hata durumunda bildirim
 
       toast.error("Kitap yayınlanamadı");
+    } finally {
+      setLoading(false);
     }
   };
   const arrangeBook = async (
@@ -207,6 +215,8 @@ const useBooks = () => {
     values: FormValues,
     img: File | null
   ): Promise<void> => {
+
+    setLoading(true);
     try {
       let imgUrl = "";
       if (img) {
@@ -248,6 +258,8 @@ const useBooks = () => {
       // Hata durumunda bildirim
 
       toast.error("Kitap düzenlenemedi.");
+    }  finally {
+      setLoading(false);
     }
   };
 

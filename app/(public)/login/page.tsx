@@ -34,7 +34,7 @@ const Page = () => {
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
 
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
 
   return (
     <section className="flex justify-center items-center h-[90svh] bg-gray-100">
@@ -53,11 +53,13 @@ const Page = () => {
           {({ handleSubmit, isSubmitting, touched, errors }) => (
             <Form onSubmit={handleSubmit} className="w-full">
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-black">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-black"
+                >
                   E-Posta
                 </label>
                 <Field
-
                   type="email"
                   name="email"
                   className="w-full text-black p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -70,7 +72,10 @@ const Page = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium text-black">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-black"
+                >
                   Şifre
                 </label>
                 <div className="relative">
@@ -99,13 +104,19 @@ const Page = () => {
               </div>
 
               <div className="text-center mt-4">
-                <button
-                  type="submit"
-                  className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={isSubmitting} // İstek yapılırken butonu devre dışı bırak
-                >
-                  Giriş {isSubmitting ? "Yapılıyor" : "Yap"}
-                </button>
+                {loading ? (
+                  <p className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Giriş Yapılıyor
+                  </p>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={isSubmitting} // İstek yapılırken butonu devre dışı bırak
+                  >
+                    Giriş {isSubmitting ? "Yapılıyor" : "Yap"}
+                  </button>
+                )}
               </div>
 
               <div className="text-center mt-4">

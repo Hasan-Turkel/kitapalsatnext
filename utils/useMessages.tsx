@@ -10,13 +10,14 @@ const useMessages = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   const [data, setData] = useState([]);
   const [message, setMessage] = useState<any>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const router = useRouter();
   const setMessageId = useSetAtom(messageIdAtom);
   const setNewMessage = useSetAtom(newMessageAtom);
 
   const sendMessage = async (values: IMessageModel) => {
+    setLoading(true);
     try {
       const data = await axiosInstance.post(`/messages`, values);
       if ("data" in data) {
@@ -29,12 +30,13 @@ const useMessages = () => {
     } catch (error) {
       // console.log(error);
       toast.error("Mesaj gönderilemedi.");
-    }
+    } finally {(setLoading(false))}
   };
   const updateMessage = async (
     values: { message: string; date: any },
     id: string
   ) => {
+    setLoading(true)
     try {
       const data = await axiosInstance.put(`/messages/${id}`, values);
       if ("data" in data) {
@@ -44,9 +46,10 @@ const useMessages = () => {
     } catch (error) {
     
       toast.error("Mesaj gönderilemedi.");
-    }
+    } finally {(setLoading(false))}
   };
   const hasBeenRedOrDelete = async (values: { date: any }, id: string) => {
+    setLoading(true);
     try {
       await axiosInstance.put(`/messages/redOrDelete/${id}`, values);
       isNewMessage();
@@ -59,6 +62,7 @@ const useMessages = () => {
     }
   };
   const getMessages = async () => {
+    setLoading(true);
     try {
       const data = await axiosInstance.get(`/messages`);
       if ("data" in data) {
@@ -71,6 +75,7 @@ const useMessages = () => {
     }
   };
   const getMessage = async (id: string) => {
+    setLoading(true);
     try {
       const data = await axiosInstance.get(`/messages/${id}`);
 
@@ -84,6 +89,7 @@ const useMessages = () => {
     }
   };
   const isThereMessage = async (id: string) => {
+    setLoading(true);
     try {
       const data = await axiosInstance.get(`/messages/isThereMessage/${id}`);
 
@@ -99,6 +105,7 @@ const useMessages = () => {
     }
   };
   const isNewMessage = async () => {
+    setLoading(true);
     try {
       const data = await axiosInstance.get(`/messages/isNewMessage`);
 

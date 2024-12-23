@@ -3,6 +3,7 @@ import { useSetAtom } from "jotai";
 import { tokenAtom } from "./atoms";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 // Login ve Register form değerlerinin tipi
 interface LoginValues {
@@ -28,9 +29,11 @@ const useAuth = () => {
   const axiosInstance = useAxios(); // Axios instance'ını alıyoruz
   const setToken = useSetAtom(tokenAtom);
   const router = useRouter();
+   const [loading, setLoading] = useState(false);
 
   // Login işlemi
   const login = async (values: LoginValues) => {
+    setLoading(true)
     try {
       const data = await axiosInstance.post(`/auth/login`, values);
       if ("bearer" in data) {
@@ -42,7 +45,7 @@ const useAuth = () => {
     } catch (error) {
       // console.log(error);
       toast.error("Mail adresi veya şifre yanlış.");
-    }
+    } finally {setLoading(false)} 
   };
 
   const logout = async () => {
@@ -59,6 +62,7 @@ const useAuth = () => {
 
   // Kayıt işlemi
   const register = async (values: RegisterValues) => {
+    setLoading(true)
     try {
       const data = await axiosInstance.post(`/auth/register`, values);
       if ("bearer" in data) {
@@ -70,7 +74,7 @@ const useAuth = () => {
     } catch (error:any) {
       
       toast.error(error?.response?.data?.message?.includes('duplicate') ? 'Email ile daha önce kayıt olunmuş.' : 'Bir hata oluştu.');
-    }
+    } finally{setLoading(false)}
   };
 
   // Çıkış yapma
@@ -79,6 +83,7 @@ const useAuth = () => {
     login,
     register,
     logout,
+    loading
     
   };
 };

@@ -5,7 +5,6 @@ import { useAtomValue } from "jotai"; // Jotai atomunu okuma
 import {
   bookAtom,
   messageIdAtom,
-  newMessageAtom,
   tokenAtom,
 } from "@/utils/atoms";
 import { Form, Formik, Field } from "formik";
@@ -86,8 +85,8 @@ const receiver = message?.participants?.filter((person:any)=>user?._id!=person?.
             ))}
           </section>
 
-          <div className="my-4 absolute bottom-0 w-full">
-            <Formik
+          <div className="m-1 absolute bottom-0 w-11/12 ">
+            <Formik 
               initialValues={{ message: "" }} // Formun başlangıç değerleri
               onSubmit={(values, { resetForm }) => {
                 messageId
@@ -114,7 +113,7 @@ const receiver = message?.participants?.filter((person:any)=>user?._id!=person?.
               }}
             >
               {({ values, handleChange, handleBlur }) => (
-                <Form className="border border-black bg-white ps-2 rounded-lg flex">
+                <Form className="border border-black bg-white ps-2 rounded-lg flex ">
                   {/* Mesaj input alanı */}
                   <Field
                     required

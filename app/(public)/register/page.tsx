@@ -57,18 +57,17 @@ const page = () => {
   // Validation schema with Yup
   const validationSchema = Yup.object({
     fullname: Yup.string(),
-    email: Yup.string()
-      .email("Geçersiz email adresi"),
+    email: Yup.string().email("Geçersiz email adresi"),
     password: Yup.string()
       .min(8, "Şifre en az 8 karakter olmalıdır")
       .matches(/[A-Z]/, "Şifre en az bir büyük harf içermelidir")
       .matches(/[a-z]/, "Şifre en az bir küçük harf içermelidir")
       .matches(/[0-9]/, "Şifre en az bir rakam içermelidir"),
     city: Yup.object().nullable(),
-    district: Yup.object().nullable()
+    district: Yup.object().nullable(),
   });
 
-  const { register } = useAuth();
+  const { register, loading } = useAuth();
 
   return (
     <section className="flex justify-center items-center bg-light p-4">
@@ -87,19 +86,14 @@ const page = () => {
           }}
           validationSchema={validationSchema} // Apply validation schema
           onSubmit={(values, actions) => {
-            register({...values, city, district});
+            register({ ...values, city, district });
             actions.resetForm();
             setCity(null);
             setDistrict(null);
             actions.setSubmitting(false);
           }}
         >
-          {({
-            handleSubmit,
-            isSubmitting,
-            errors,
-            touched,
-          }) => (
+          {({ handleSubmit, isSubmitting, errors, touched }) => (
             <Form onSubmit={handleSubmit}>
               {/* Fullname Field */}
               <div className="flex gap-4 mb-2">
@@ -127,7 +121,10 @@ const page = () => {
               </div>
 
               {/* Email Field */}
-              <label htmlFor="email" className="block text-sm font-medium my-2 text-black">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium my-2 text-black"
+              >
                 E-Posta
               </label>
               <div className="border rounded-lg p-1">
@@ -179,7 +176,10 @@ const page = () => {
 
               {/* City Field */}
               <div className="my-4">
-                <label className="text-black" htmlFor="city">İl</label> <br />
+                <label className="text-black" htmlFor="city">
+                  İl
+                </label>{" "}
+                <br />
                 <div className="border px-2 rounded-lg">
                   <Select
                     required={true}
@@ -206,7 +206,7 @@ const page = () => {
                         border: "none",
                         boxShadow: "none",
                         cursor: "pointer",
-                        color:'black'
+                        color: "black",
                       }),
                     }}
                     className="selectbox"
@@ -219,13 +219,15 @@ const page = () => {
                     isSearchable={true}
                     placeholder="İl Seçiniz"
                   />
-                
                 </div>
               </div>
 
               {/* District Field */}
               <div className="my-4">
-                <label className="text-black" htmlFor="district">İlçe</label> <br />
+                <label className="text-black" htmlFor="district">
+                  İlçe
+                </label>{" "}
+                <br />
                 <div className="border px-2 rounded-lg">
                   <Select
                     required={true}
@@ -252,7 +254,7 @@ const page = () => {
                         border: "none",
                         boxShadow: "none",
                         cursor: "pointer",
-                        color:'black'
+                        color: "black",
                       }),
                     }}
                     className="selectbox"
@@ -267,18 +269,24 @@ const page = () => {
                     isSearchable={true}
                     placeholder="İlçe Seçiniz"
                   />
-                
                 </div>
               </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled={isSubmitting}
-              >
-                Kayıt Ol
-              </button>
+              <div>
+                {loading ? (
+                  <p className=" text-center w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Kayıt Olunuyor
+                  </p>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={isSubmitting}
+                  >
+                    Kayıt Ol
+                  </button>
+                )}
+              </div>
             </Form>
           )}
         </Formik>

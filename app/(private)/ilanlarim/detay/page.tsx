@@ -7,7 +7,6 @@ import SuspendModal from "./components/SuspendModal";
 import ArrangeModal from "./components/ArrangeModal";
 import useBooks from "@/utils/useBooks";
 import { useEffect } from "react";
-import { useParams } from "next/navigation";
 import Loading from "@/app/Loading";
 import { useAtomValue } from "jotai"; // Jotai atomunu okuma
 import { bookIdAtom } from "@/utils/atoms";
